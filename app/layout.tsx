@@ -19,10 +19,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={inter.className}>
+        <body className={`flex flex-col min-h-screen ${inter.className}`}>
           {/* @ts-expect-error Server Component */}
           <Header />
-          <main>{children}</main>
+          <main className="flex-1">{children}</main>
         </body>
       </html>
     </ClerkProvider>
