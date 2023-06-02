@@ -11,13 +11,13 @@ export default function TodoList({ todos }: TodoListProps) {
   console.log(todos)
 
   function removeTodo(id: number) {
-    
+
   }
 
   return (
     <div className="bg-purple-500 text-white my-2 p-5">
       <span className="text-lg uppercase font-bold">
-        {todos.length && todos.length === 1
+        {todos && todos.length === 1
           ? todos.length + ' todo'
           : todos.length + ' todos'}
       </span>
