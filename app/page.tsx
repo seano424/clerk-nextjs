@@ -35,10 +35,12 @@ export default function Home() {
 
   return (
     <main className="container py-10">
-      <h1>I am the home page</h1>
       {isSignedIn ? (
         <>
-          <span>Welcome {user.fullName}</span>
+          <div className="flex flex-col gap-2">
+            <span className="text-primary-secondary">Hi {user.firstName}</span>
+            <span className="text-xl">Your Personal Todo App!</span>
+          </div>
           <TodoList setTodos={setTodos} todos={todos} />
           <AddTodoForm todos={todos} setTodos={setTodos} />
         </>

@@ -45,30 +45,25 @@ export default function TodoList({ todos, setTodos }: TodoListProps) {
 
   return (
     <>
-      {todos.length > 0 ? (
-        <div className="bg-purple-500 text-white my-2 p-5">
-          <span className="text-lg uppercase font-bold">
+      {todos.length > 0 && (
+        <ul className="flex flex-col gap-2 py-8">
+          <span className="text-primary-slate">
             {todos.length === 1
               ? todos.length + ' todo'
               : todos.length + ' todos'}
           </span>
-
-          <ul className="flex flex-col gap-2 pt-3">
-            {todos.map((todo) => (
-              <li className="flex text-lg justify-between items-center">
-                {todo.title}
-                <button
-                  onClick={() => removeTodo(todo.id)}
-                  className="bg-red-500 rounded-full h-10 w-10 flex items-center justify-center"
-                >
-                  -
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <div>Add some todos</div>
+          {todos.map((todo) => (
+            <li className="flex filter backdrop-blur text-lg justify-between items-center bg-gradient-to-r from-primary-blue via-primary-blue/80 to-primary-blue text-primary-light rounded-lg p-5 shadow-xl">
+              {todo.title}
+              <button
+                onClick={() => removeTodo(todo.id)}
+                className="bg-gradient-to-r from-primary-light/10 from-1% to-primary-light rounded-full h-8 w-8 flex items-center justify-center"
+              >
+                <span className="w-4 h-1 bg-primary-dark rounded" />
+              </button>
+            </li>
+          ))}
+        </ul>
       )}
     </>
   )
