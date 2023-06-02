@@ -34,12 +34,12 @@ export default function Home() {
   }
 
   return (
-    <main>
+    <main className="container py-10">
       <h1>I am the home page</h1>
       {isSignedIn ? (
         <>
           <span>Welcome {user.fullName}</span>
-          <TodoList todos={todos} />
+          <TodoList setTodos={setTodos} todos={todos} />
           <AddTodoForm todos={todos} setTodos={setTodos} />
         </>
       ) : (
