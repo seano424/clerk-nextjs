@@ -1,8 +1,8 @@
 // app/layout.tsx
 import './globals.css'
+import Header from './components/Header'
 import { Inter } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
-import Header from './components/Header'
 
 const inter = Inter({ subsets: ['latin'] })
 
