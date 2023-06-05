@@ -5,6 +5,7 @@ import { useAuth, useUser } from '@clerk/nextjs'
 import supabaseClient from '@/lib/supabaseClient'
 import TodoList from './components/TodoList'
 import AddTodoForm from './components/AddTodoForm'
+import Hero from './components/Hero'
 
 export default function Home() {
   const { getToken } = useAuth()
@@ -37,10 +38,7 @@ export default function Home() {
     <main className="container py-10">
       {isSignedIn ? (
         <>
-          <div className="flex flex-col gap-2">
-            <span className="text-theme-blue-300 text-5xl">Good Morning</span>
-            <span className="text-xl">Your Personal Todo App!</span>
-          </div>
+          <Hero />
           <TodoList setTodos={setTodos} todos={todos} />
           <AddTodoForm todos={todos} setTodos={setTodos} />
         </>
