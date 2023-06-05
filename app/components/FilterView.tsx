@@ -12,7 +12,6 @@ export default function FilterView({
   active,
   setActiveListView,
 }: FilterViewProps) {
-  console.log('FilterView todos', todos)
   const boardsMap = todos?.map((todo: any) => todo.board)
   const boards = [...new Set(boardsMap)]
 

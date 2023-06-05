@@ -39,7 +39,7 @@ const nth = (d: number) => {
 
 export default function Overview() {
   const date = new Date()
-  
+
   return (
     <div className="flex-col flex">
       <div className="flex justify-between text-xl text-white">

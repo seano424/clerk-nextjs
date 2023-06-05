@@ -6,6 +6,7 @@ import supabaseClient from '@/lib/supabaseClient'
 import FilterView from './FilterView'
 import Overview from './Overview'
 import TasksList from './TasksList'
+import BoardList from './BoardList'
 
 export default function ListView() {
   const { getToken } = useAuth()
@@ -37,7 +38,8 @@ export default function ListView() {
         setActiveListView={setActiveListView}
         active={active}
       />
-      <TasksList todos={todos} />
+      {!active && <TasksList todos={todos} />}
+      {active && <BoardList todos={todos} />}
     </>
   )
 }

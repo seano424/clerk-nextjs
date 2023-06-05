@@ -1,9 +1,9 @@
 'use client'
 import clsx from 'clsx'
-import { useState } from 'react'
 import Card from './Card'
+import { useState } from 'react'
 
-interface TasksListProps {
+export type TasksListProps = {
   todos: {
     title: string
     created_at: string
@@ -18,17 +18,44 @@ interface TasksListProps {
 
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 const currentDate = new Date()
+const fakeTodos = Array(10).fill(5)
 
 export default function TasksList({ todos }: TasksListProps) {
   const [activeDay, setActiveDay] = useState(currentDate.getDay() - 1)
+  const [showActiveTasks, setShowActiveTasks] = useState(true)
 
   return (
     <div className="pt-5 min-h-screen">
-      <div className="flex justify-between p-5">
+      <div className="flex items-center justify-end pb-8 pt-5 px-10">
+        <button
+          onClick={() => setShowActiveTasks(true)}
+          className={clsx(
+            'rounded-full px-7 py-4',
+            showActiveTasks
+              ? 'text-theme-blue-900 bg-theme-blue-300 hover:bg-opacity-95'
+              : 'text-white border-theme-blue-700 border hover:text-opacity-95'
+          )}
+        >
+          Active
+        </button>
+        <button
+          onClick={() => setShowActiveTasks(false)}
+          className={clsx(
+            'rounded-full px-7 py-4',
+            !showActiveTasks
+              ? 'text-theme-blue-900 bg-theme-blue-300 hover:bg-opacity-95'
+              : 'text-white border-theme-blue-700 border hover:text-opacity-95'
+          )}
+        >
+          Done
+        </button>
+      </div>
+      <div className="flex justify-between px-10 pb-10">
         {days.map((day, i) => (
           <button
             onClick={() => setActiveDay(i)}
             className={clsx(
+              'text-lg',
               activeDay === i ? 'text-white' : 'text-theme-slate-500'
             )}
             key={day}
@@ -38,10 +65,11 @@ export default function TasksList({ todos }: TasksListProps) {
         ))}
       </div>
       {todos
-        .filter((todo) => new Date(todo.date).getDay() - 1 === activeDay)
-        .map((task, i) => (
-          <Card task={task} i={i} key={task.id} />
-        ))}
+        ? todos
+            .filter((todo) => new Date(todo.date).getDay() - 1 === activeDay)
+            .filter((t) => t.active === showActiveTasks)
+            .map((task, i) => <Card task={task} i={i} key={task.id} />)
+        : fakeTodos.map((_, i) => <Card i={i} key={i} />)}
     </div>
   )
 }
