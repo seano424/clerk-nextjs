@@ -3,12 +3,12 @@ import { useAuth } from '@clerk/nextjs'
 import { useState } from 'react'
 import supabaseClient from '@/lib/supabaseClient'
 
-interface AddTodoFormProps {
+interface TodoAddFormProps {
   todos: any[]
   setTodos: Dispatch<any>
 }
 
-export default function AddTodoForm({ todos, setTodos }: AddTodoFormProps) {
+export default function TodoAddForm({ todos, setTodos }: TodoAddFormProps) {
   const { getToken, userId } = useAuth()
   const [newTodo, setNewTodo] = useState('')
 

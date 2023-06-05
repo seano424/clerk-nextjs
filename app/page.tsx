@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useAuth, useUser } from '@clerk/nextjs'
 import supabaseClient from '@/lib/supabaseClient'
 import TodoList from './components/TodoList'
-import AddTodoForm from './components/AddTodoForm'
+import TodoAddForm from './components/TodoAddForm'
 import Hero from './components/Hero'
 
 export default function Home() {
@@ -39,13 +39,11 @@ export default function Home() {
       {isSignedIn ? (
         <>
           <Hero />
-          <TodoList setTodos={setTodos} todos={todos} />
-          <AddTodoForm todos={todos} setTodos={setTodos} />
+          <TodoList todos={todos} />
         </>
       ) : (
         <div>Sign in to create your todo list</div>
       )}
-      {/* <button onClick={fetchData}>Fetch data</button> */}
     </main>
   )
 }
