@@ -11,6 +11,7 @@ interface TodoAddFormProps {
 export default function TodoAddForm({ todos, setTodos }: TodoAddFormProps) {
   const { getToken, userId } = useAuth()
   const [newTodo, setNewTodo] = useState('')
+  const [newBoard, setNewBoard] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -24,11 +25,12 @@ export default function TodoAddForm({ todos, setTodos }: TodoAddFormProps) {
     const supabase = await supabaseClient(supabaseAccessToken)
     const { data } = await supabase
       .from('todos')
-      .insert({ title: newTodo, user_id: userId })
+      .insert({ title: newTodo, user_id: userId, board: newBoard })
       .select()
 
     setTodos([...todos, data && data[0]])
     setNewTodo('')
+    setNewBoard('')
   }
 
   return (
@@ -37,8 +39,17 @@ export default function TodoAddForm({ todos, setTodos }: TodoAddFormProps) {
         className="border pl-1 rounded border-fuchsia-500"
         onChange={(e) => setNewTodo(e.target.value)}
         value={newTodo}
+        required
+        placeholder='Add Todo'
       />
-      &nbsp;<button>Add Todo</button>
+      <input
+        className="border pl-1 rounded border-fuchsia-500"
+        onChange={(e) => setNewBoard(e.target.value)}
+        value={newBoard}
+        required
+        placeholder='Add Board'
+      />
+      <button className="rounded-full bg-white px-3 py-2">Add Todo</button>
     </form>
   )
 }
