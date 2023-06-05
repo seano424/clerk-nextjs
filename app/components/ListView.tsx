@@ -1,42 +1,42 @@
 'use client'
-import clsx from 'clsx'
-import { Dispatch, useState, SetStateAction } from 'react'
 
-const views = ['Task', 'Boards']
+import { useAuth } from '@clerk/nextjs'
+import { useState, useEffect } from 'react'
+import supabaseClient from '@/lib/supabaseClient'
+import FilterView from './FilterView'
 
-interface ListViewProps {
-  todos: []
-  setActiveListView: Dispatch<SetStateAction<'task' | 'board'>>
-  activeListView: 'task' | 'board'
-}
+export default function ListView() {
+  const { getToken } = useAuth()
+  const [todos, setTodos] = useState<any>(null)
+  const [activeListView, setActiveListView] = useState<'task' | 'board'>('task')
+  const [loading, setLoading] = useState(true)
 
-export default function ListView({
-  todos,
-  activeListView,
-  setActiveListView,
-}: ListViewProps) {
   const active = activeListView === 'task' ? 0 : 1
+
+  useEffect(() => {
+    const loadTodos = async () => {
+      try {
+        setLoading(true)
+        const supabaseAccessToken = await getToken({ template: 'supabase' })
+        const supabase = await supabaseClient(supabaseAccessToken)
+        const { data: todos } = await supabase.from('todos').select('*')
+        setTodos(todos)
+      } catch (error) {
+        alert(error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadTodos()
+  }, [])
+
   return (
     <>
-      <div className="flex justify-between pt-10 text-3xl font-light">
-        {views.map((view, i) => (
-          <button
-            onClick={() => setActiveListView(i === 0 ? 'task' : 'board')}
-            className={clsx(
-              active === i
-                ? 'text-theme-blue-300 border-white'
-                : 'text-theme-slate-500 border-theme-slate-500',
-              'border-b-2 w-full flex gap-3 pb-2',
-              i === 0 ? 'justify-start' : 'justify-end',
-              'transition-all duration-75 ease-linear'
-            )}
-          >
-            <span>{i === 0 && todos.length}</span>
-            {view}
-            {i === 0 && todos.length > 1 && 's'}
-          </button>
-        ))}
-      </div>
+      <FilterView
+        todos={todos}
+        setActiveListView={setActiveListView}
+        active={active}
+      />
     </>
   )
 }

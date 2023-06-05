@@ -7,7 +7,7 @@ import { useUser } from '@clerk/nextjs'
 import supabaseClient from '@/lib/supabaseClient'
 import { CheckCircleIcon, CheckIcon } from '@heroicons/react/24/solid'
 
-interface TodoListProps {
+interface TasksListProps {
   todos: {
     title: string
     created_at: string
@@ -26,7 +26,7 @@ const bgColors = ['bg-theme-cyan', 'bg-theme-yellow', 'bg-white']
 const bgColor = (i: number) => bgColors[i % bgColors.length]
 const currentDate = new Date()
 
-export default function TodoList({ todos }: TodoListProps) {
+export default function TasksList({ todos }: TasksListProps) {
   const { user } = useUser()
   const [activeDay, setActiveDay] = useState(currentDate.getDay() - 1)
 
