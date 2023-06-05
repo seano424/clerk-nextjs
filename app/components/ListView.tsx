@@ -4,6 +4,7 @@ import { useAuth } from '@clerk/nextjs'
 import { useState, useEffect } from 'react'
 import supabaseClient from '@/lib/supabaseClient'
 import FilterView from './FilterView'
+import Overview from './Overview'
 
 export default function ListView() {
   const { getToken } = useAuth()
@@ -29,6 +30,7 @@ export default function ListView() {
 
   return (
     <>
+      <Overview />
       <FilterView
         todos={todos}
         setActiveListView={setActiveListView}

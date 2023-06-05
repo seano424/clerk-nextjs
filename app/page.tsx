@@ -7,7 +7,7 @@ export default async function Home() {
   const user = await currentUser()
 
   return (
-    <main className="container py-10">
+    <main className="container">
       {user ? (
         <>
           <Hero />
