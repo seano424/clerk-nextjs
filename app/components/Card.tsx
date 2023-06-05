@@ -1,5 +1,8 @@
+'use client'
+
 import clsx from 'clsx'
 import Image from 'next/image'
+import { toast } from 'react-toastify'
 import { useUser } from '@clerk/nextjs'
 import {
   CheckCircleIcon,
@@ -35,6 +38,8 @@ interface CardProps {
 
 export default function Card({ task, i, boardList }: CardProps) {
   const { user } = useUser()
+  const notify = () => toast('Wow so easy!')
+
   return (
     <div
       className={clsx(
@@ -62,7 +67,7 @@ export default function Card({ task, i, boardList }: CardProps) {
           ) : (
             <>
               <span>{timeConvert(task?.time ?? 90)}</span>
-              <button>
+              <button onClick={notify}>
                 <CheckCircleIcon className="h-16 w-16 fill-theme-blue-900/90 hover:fill-theme-blue-900/100 transition-all duration-150 ease-linear" />
               </button>
             </>

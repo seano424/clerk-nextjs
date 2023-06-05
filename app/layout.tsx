@@ -1,5 +1,6 @@
 // app/layout.tsx
 import './globals.css'
+
 import Header from './components/Header'
 import { Work_Sans } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'

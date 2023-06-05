@@ -1,5 +1,6 @@
 'use client'
-
+import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer } from 'react-toastify'
 import { useAuth } from '@clerk/nextjs'
 import { useState, useEffect } from 'react'
 import supabaseClient from '@/lib/supabaseClient'
@@ -32,6 +33,7 @@ export default function ListView() {
 
   return (
     <>
+      <ToastContainer />
       <Overview />
       <FilterView
         todos={todos}

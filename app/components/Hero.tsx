@@ -10,8 +10,8 @@ export default function Hero() {
   const date = new Date()
 
   return (
-    <div className="flex flex-col gap-5 pt-12 pb-10">
-      <span className="text-theme-blue-300 text-8xl pr-96 tracking-tighter">
+    <div className="flex flex-col gap-5 pt-5 pb-10">
+      <span className="text-theme-blue-300 text-8xl font-bold pr-96 tracking-tighter">
         {welcome(date.getHours())}
       </span>
     </div>
