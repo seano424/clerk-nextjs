@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import supabaseClient from '@/lib/supabaseClient'
 import FilterView from './FilterView'
 import Overview from './Overview'
+import TasksList from './TasksList'
 
 export default function ListView() {
   const { getToken } = useAuth()
@@ -36,6 +37,7 @@ export default function ListView() {
         setActiveListView={setActiveListView}
         active={active}
       />
+      <TasksList todos={todos} />
     </>
   )
 }
