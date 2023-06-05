@@ -1,10 +1,10 @@
 // app/layout.tsx
 import './globals.css'
 import Header from './components/Header'
-import { Inter } from 'next/font/google'
+import { Work_Sans } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 
-const inter = Inter({ subsets: ['latin'] })
+const workSans = Work_Sans({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Create Next App',
@@ -20,7 +20,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`flex font-medium flex-col min-h-screen bg-primary-light ${inter.className}`}
+          className={`flex flex-col min-h-screen bg-theme-blue-900 ${workSans.className}`}
         >
           {/* @ts-expect-error Server Component */}
           <Header />

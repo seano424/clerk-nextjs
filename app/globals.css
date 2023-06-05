@@ -5,3 +5,8 @@
 .cl-internal-b3fm6y {
   @apply hidden;
 }
+
+.cl-userButtonAvatarBox {
+  height: 50px;
+  width: 50px;
+}

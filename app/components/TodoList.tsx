@@ -1,6 +1,12 @@
+import Image from 'next/image'
 import { Dispatch } from 'react'
-import { useAuth } from '@clerk/nextjs'
+import { useAuth, useUser } from '@clerk/nextjs'
 import supabaseClient from '@/lib/supabaseClient'
+import {
+  EllipsisHorizontalIcon,
+  PlusIcon,
+  CheckIcon,
+} from '@heroicons/react/24/solid'
 
 interface TodoListProps {
   todos: {
@@ -14,6 +20,7 @@ interface TodoListProps {
 
 export default function TodoList({ todos, setTodos }: TodoListProps) {
   const { getToken, userId } = useAuth()
+  const { user } = useUser()
 
   async function removeTodo(id: number) {
     const supabaseAccessToken = await getToken({
@@ -53,13 +60,13 @@ export default function TodoList({ todos, setTodos }: TodoListProps) {
               : todos.length + ' todos'}
           </span>
           {todos.map((todo) => (
-            <li className="flex filter backdrop-blur text-lg justify-between items-center bg-gradient-to-r from-primary-blue via-primary-blue/80 to-primary-blue text-primary-light rounded-lg p-5 shadow-xl">
+            <li className="flex filter backdrop-blur text-lg justify-between items-center bg-gradient-to-r from-primary-blue via-primary-blue/80 to-primary-blue text-primary-light rounded-3xl p-5 shadow-xl">
               {todo.title}
               <button
                 onClick={() => removeTodo(todo.id)}
-                className="bg-gradient-to-r from-primary-light/10 from-1% to-primary-light rounded-full h-8 w-8 flex items-center justify-center"
+                className="bg-white/80 filter backdrop-blur rounded-full h-8 w-8 flex items-center justify-center hover:bg-white/70 transition-all duration-150 ease-linear shadow-lg"
               >
-                <span className="w-4 h-1 bg-primary-dark rounded" />
+                <CheckIcon className="text-primary-dark h-5 w-5" />
               </button>
             </li>
           ))}

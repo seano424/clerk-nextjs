@@ -38,7 +38,7 @@ export default function Home() {
       {isSignedIn ? (
         <>
           <div className="flex flex-col gap-2">
-            <span className="text-primary-secondary">Hi {user.firstName}</span>
+            <span className="text-theme-blue-300 text-5xl">Good Morning</span>
             <span className="text-xl">Your Personal Todo App!</span>
           </div>
           <TodoList setTodos={setTodos} todos={todos} />

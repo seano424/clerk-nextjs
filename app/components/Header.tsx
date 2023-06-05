@@ -6,7 +6,6 @@ export default async function Header() {
   return (
     <header className="text-primary-dark py-5">
       <nav className="flex justify-between container">
-        <Link href="/">Logo</Link>
         {user ? <UserButton afterSignOutUrl="/" /> : <SignInButton />}
       </nav>
     </header>
