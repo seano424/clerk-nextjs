@@ -5,17 +5,13 @@ import supabaseClient from '@/lib/supabaseClient'
 import { CheckCircleIcon, ArrowUturnLeftIcon } from '@heroicons/react/24/solid'
 
 interface ActiveButtonProps {
-  active: boolean
   task: Todo
-  setTodos: any
   userId: any
   getToken: any
 }
 
 export default function ActiveButton({
-  active,
   task,
-  setTodos,
   userId,
   getToken,
 }: ActiveButtonProps) {
@@ -35,15 +31,6 @@ export default function ActiveButton({
         .eq('id', task.id)
         .eq('user_id', userId)
         .select()
-      setTodos((prevState: any) => {
-        if (prevState.id === task.id) {
-          return {
-            ...prevState,
-            active: !prevState.active,
-          }
-        }
-        return prevState
-      })
       if (error) throw error
     } catch (e) {
       alert(e)
@@ -59,14 +46,14 @@ export default function ActiveButton({
       disabled={!task}
       onClick={() => updateActive(task)}
       className={clsx(
-        !active &&
+        !task.active &&
           'border-2 rounded-full p-2 border-theme-blue-900 hover:border-opacity-60 transition-all duration-150 ease-linear'
       )}
     >
       <span className="sr-only">
-        {active ? 'Mark task done' : 'Undo marking task done'}
+        {task.active ? 'Mark task done' : 'Undo marking task done'}
       </span>
-      {active ? (
+      {task.active ? (
         <CheckCircleIcon className="h-16 w-16 fill-theme-blue-900/90 hover:fill-theme-blue-900/100 transition-all duration-150 ease-linear" />
       ) : (
         <ArrowUturnLeftIcon className="h-8 w-8 fill-theme-blue-900/90 hover:fill-theme-blue-900/100 transition-all duration-150 ease-linear" />
