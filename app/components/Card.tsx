@@ -56,16 +56,17 @@ export default function Card({
     } catch (e) {
       alert(e)
     } finally {
-      setTodos((prevState: any) =>
-        prevState.filter(
-          (item: {
-            title: string
-            created_at: string
-            id: number
-            user_id: string
-          }) => item.id !== id
+      setTodos &&
+        setTodos((prevState: any) =>
+          prevState.filter(
+            (item: {
+              title: string
+              created_at: string
+              id: number
+              user_id: string
+            }) => item.id !== id
+          )
         )
-      )
       notify('Deleted task! 🗑')
     }
   }

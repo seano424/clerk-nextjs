@@ -43,13 +43,13 @@ export default function Overview() {
   return (
     <div className="flex-col flex">
       <div className="flex justify-between text-xl text-white">
-        <span>Today's {days[date.getDay()]}</span>
+        <span>Today&apos;s {days[date.getDay()]}</span>
         <span>75% done</span>
       </div>
       <div className="flex justify-between text-lg text-theme-slate-500">
         <span>
           {months[date.getMonth()]} {date.getDate()}
-          {nth(date.getDate())}, {date.getFullYear()}{' '}
+          {nth(date.getDate())}, {date.getFullYear()}
         </span>
         <span>Completed Tasks</span>
       </div>

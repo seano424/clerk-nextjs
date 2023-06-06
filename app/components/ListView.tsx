@@ -29,7 +29,7 @@ export default function ListView() {
       }
     }
     loadTodos()
-  }, [todos])
+  }, [todos, getToken])
 
   return (
     <>
