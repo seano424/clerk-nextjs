@@ -1,55 +1,55 @@
-import React, { Dispatch } from 'react'
+'use client'
+import React, { useState } from 'react'
 import { useAuth } from '@clerk/nextjs'
-import { useState } from 'react'
 import supabaseClient from '@/lib/supabaseClient'
 
-interface TodoAddFormProps {
-  todos: any[]
-  setTodos: Dispatch<any>
-}
+function TodoAddForm() {
+  const { userId, getToken } = useAuth()
+  const [title, setTitle] = useState('')
+  const [board, setBoard] = useState('')
 
-export default function TodoAddForm({ todos, setTodos }: TodoAddFormProps) {
-  const { getToken, userId } = useAuth()
-  const [newTodo, setNewTodo] = useState('')
-  const [newBoard, setNewBoard] = useState('')
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (newTodo === '') {
-      return
-    }
-
     const supabaseAccessToken = await getToken({
       template: 'supabase',
     })
     const supabase = await supabaseClient(supabaseAccessToken)
-    const { data } = await supabase
-      .from('todos')
-      .insert({ title: newTodo, user_id: userId, board: newBoard })
-      .select()
-
-    setTodos([...todos, data && data[0]])
-    setNewTodo('')
-    setNewBoard('')
+    try {
+      const { data, error } = await supabase
+        .from('todos')
+        .insert({
+          title: title,
+          user_id: userId,
+          board: board.length ? board : 'myself',
+        })
+        .select()
+      if (error) throw error
+    } catch (error) {
+      console.log(error)
+    }
   }
-
   return (
-    <form className="py-2 flex gap-2" onSubmit={handleSubmit}>
+    <form
+      onSubmit={(e) => handleSubmit(e)}
+      className="bg-white p-5 rounded flex gap-2"
+    >
       <input
-        className="border pl-1 rounded border-fuchsia-500"
-        onChange={(e) => setNewTodo(e.target.value)}
-        value={newTodo}
-        required
-        placeholder='Add Todo'
+        className="border rounded p-2"
+        onChange={(e) => setTitle(e.target.value)}
+        value={title}
+        type="text"
+        placeholder="Add a task"
       />
       <input
-        className="border pl-1 rounded border-fuchsia-500"
-        onChange={(e) => setNewBoard(e.target.value)}
-        value={newBoard}
-        required
-        placeholder='Add Board'
+        className="border rounded p-2"
+        onChange={(e) => setBoard(e.target.value)}
+        value={board}
+        type="text"
+        placeholder="Add a board"
       />
-      <button className="rounded-full bg-white px-3 py-2">Add Todo</button>
+      <button type="submit">submit</button>
     </form>
   )
 }
+
+export default TodoAddForm

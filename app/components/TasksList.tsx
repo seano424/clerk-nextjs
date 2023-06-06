@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import Card from './Card'
 import { useState, Dispatch } from 'react'
 import SkeletonCard from './SkeletonCard'
+import TodoAddForm from './TodoAddForm'
 
 export type Todo = {
   title: string
@@ -78,6 +79,8 @@ export default function TasksList({ todos, setTodos }: TasksListProps) {
         : fakeTodos.map((_, i) => (
             <SkeletonCard boardList={false} active={showActiveTasks} key={i} />
           ))}
+
+      <TodoAddForm setTodos={setTodos} todos={todos} />
     </div>
   )
 }

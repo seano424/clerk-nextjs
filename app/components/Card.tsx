@@ -54,7 +54,7 @@ export default function Card({
         .eq('user_id', userId)
       if (error) throw error
     } catch (e) {
-      alert(e)
+      console.log(e)
     } finally {
       setTodos &&
         setTodos((prevState: any) =>
