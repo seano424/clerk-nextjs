@@ -3,17 +3,19 @@ import clsx from 'clsx'
 import Card from './Card'
 import { useState, Dispatch } from 'react'
 
+export type Todo = {
+  title: string
+  created_at: string
+  id: number
+  user_id: string
+  board: string
+  time: number
+  active: boolean
+  date: string
+}
+
 export type TasksListProps = {
-  todos: {
-    title: string
-    created_at: string
-    id: number
-    user_id: string
-    board: string
-    time: number
-    active: boolean
-    date: string
-  }[]
+  todos: Todo[]
   setTodos: Dispatch<any>
 }
 

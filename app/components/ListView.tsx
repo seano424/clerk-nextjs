@@ -46,7 +46,7 @@ export default function ListView() {
         active={active}
       />
       {!active && <TasksList setTodos={setTodos} todos={todos} />}
-      {active && <BoardList todos={todos} />}
+      {active && <BoardList setTodos={setTodos} todos={todos} />}
     </>
   )
 }
