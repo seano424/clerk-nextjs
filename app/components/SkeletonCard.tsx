@@ -3,24 +3,19 @@
 import clsx from 'clsx'
 import { CheckCircleIcon, ArrowUturnLeftIcon } from '@heroicons/react/24/solid'
 import { EllipsisHorizontalIcon, XCircleIcon } from '@heroicons/react/24/solid'
-import { timeConvert, alternatingBgColor } from '@/lib/utils'
 
 import Avatar from './Avatar'
 
 interface CardProps {
   boardList: boolean
   active: boolean
-  i: number
 }
 
-export default function GhostCard({ boardList, i, active }: CardProps) {
-  const bgColors = ['bg-theme-cyan', 'bg-theme-yellow', 'bg-white']
-
+export default function SkeletonCard({ boardList, active }: CardProps) {
   return (
     <div
       className={clsx(
-        alternatingBgColor(i, bgColors),
-        'text-theme-slate-900 rounded-[40px] capitalize p-5'
+        'text-theme-slate-900 rounded-[40px] capitalize p-5 bg-slate-200 animate-pulse-super-slow'
       )}
     >
       <div className="flex justify-between items-center">
@@ -33,7 +28,7 @@ export default function GhostCard({ boardList, i, active }: CardProps) {
           )}
           {!boardList && (
             <>
-              <span>{timeConvert(90)}</span>
+              <span className="bg-slate-300 w-20 h-6 animate-pulse"></span>
               <button
                 disabled
                 className={clsx(
@@ -45,15 +40,15 @@ export default function GhostCard({ boardList, i, active }: CardProps) {
                   {active ? 'Mark task done' : 'Undo marking task done'}
                 </span>
                 {active ? (
-                  <CheckCircleIcon className="h-16 w-16 fill-theme-blue-900/90 hover:fill-theme-blue-900/100 transition-all duration-150 ease-linear" />
+                  <CheckCircleIcon className="h-16 w-16 fill-theme-slate-900/90 animate-pulse-super-slow hover:fill-theme-slate-900/100 transition-all duration-150 ease-linear" />
                 ) : (
-                  <ArrowUturnLeftIcon className="h-8 w-8 fill-theme-blue-900/90 hover:fill-theme-blue-900/100 transition-all duration-150 ease-linear" />
+                  <ArrowUturnLeftIcon className="h-8 w-8 fill-theme-slate-900/90 animate-pulse-super-slow hover:fill-theme-slate-900/100 transition-all duration-150 ease-linear" />
                 )}
               </button>
               {!active && (
                 <button disabled>
                   <span className="sr-only">Delete task</span>
-                  <XCircleIcon className="h-16 w-16 fill-theme-blue-900/90 hover:fill-theme-blue-900/100 transition-all duration-150 ease-linear" />
+                  <XCircleIcon className="h-16 w-16 fill-theme-slate-900/90 animate-pulse-super-slow hover:fill-theme-slate-900/100 transition-all duration-150 ease-linear" />
                 </button>
               )}
             </>
@@ -67,8 +62,8 @@ export default function GhostCard({ boardList, i, active }: CardProps) {
         </>
       ) : (
         <>
-          <p className="pt-5">My board</p>
-          <h4 className="text-2xl">Task Title</h4>
+          <p className="mt-5 bg-slate-300 w-24 h-6 animate-pulse-slow"></p>
+          <h4 className="mt-1 text-2xl bg-slate-300 w-36 h-8 animate-pulse-slow"></h4>
         </>
       )}
     </div>

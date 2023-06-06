@@ -2,7 +2,7 @@
 import clsx from 'clsx'
 import Card from './Card'
 import { useState, Dispatch } from 'react'
-import GhostCard from './GhostCard'
+import SkeletonCard from './SkeletonCard'
 
 export type Todo = {
   title: string
@@ -22,7 +22,7 @@ export type TasksListProps = {
 
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 const currentDate = new Date()
-const fakeTodos = Array(10).fill(5)
+const fakeTodos = Array(2).fill(5)
 
 export default function TasksList({ todos, setTodos }: TasksListProps) {
   const [activeDay, setActiveDay] = useState(currentDate.getDay() - 1)
@@ -76,12 +76,7 @@ export default function TasksList({ todos, setTodos }: TasksListProps) {
               <Card setTodos={setTodos} task={task} i={i} key={task.id} />
             ))
         : fakeTodos.map((_, i) => (
-            <GhostCard
-              boardList={false}
-              active={showActiveTasks}
-              key={i}
-              i={i}
-            />
+            <SkeletonCard boardList={false} active={showActiveTasks} key={i} />
           ))}
     </div>
   )
