@@ -3,10 +3,11 @@
 import clsx from 'clsx'
 import { useAuth } from '@clerk/nextjs'
 import ActiveButton from './ActiveButton'
+import { toast } from 'react-toastify'
+import supabaseClient from '@/lib/supabaseClient'
 import { EllipsisHorizontalIcon, XCircleIcon } from '@heroicons/react/24/solid'
 import { Dispatch, SetStateAction } from 'react'
 import { timeConvert, alternatingBgColor } from '@/lib/utils'
-import useDeleteTodo from '@/helpers/useDeleteTodo'
 import Avatar from './Avatar'
 
 interface CardProps {
@@ -34,11 +35,45 @@ export default function Card({
   relatedTasks,
 }: CardProps) {
   const { getToken, userId } = useAuth()
+  const bgColors = ['bg-theme-cyan', 'bg-theme-yellow', 'bg-white']
+
+  const deleteTodo = async (id: string | number) => {
+    const notify = (text: string) => toast(text)
+
+    const supabaseAccessToken = await getToken({
+      template: 'supabase',
+    })
+
+    const supabase = await supabaseClient(supabaseAccessToken)
+
+    try {
+      const { error } = await supabase
+        .from('todos')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', userId)
+      if (error) throw error
+    } catch (e) {
+      alert(e)
+    } finally {
+      setTodos((prevState: any) =>
+        prevState.filter(
+          (item: {
+            title: string
+            created_at: string
+            id: number
+            user_id: string
+          }) => item.id !== id
+        )
+      )
+      notify('Deleted task! 🗑')
+    }
+  }
 
   return (
     <div
       className={clsx(
-        alternatingBgColor(i),
+        alternatingBgColor(i, bgColors),
         'text-theme-slate-900 rounded-[40px] capitalize p-5'
       )}
     >
@@ -61,12 +96,7 @@ export default function Card({
                 userId={userId}
               />
               {!task.active && (
-                <button
-                  disabled={!task}
-                  onClick={() =>
-                    useDeleteTodo(task.id, setTodos, userId, getToken)
-                  }
-                >
+                <button disabled={!task} onClick={() => deleteTodo(task.id)}>
                   <span className="sr-only">Delete task</span>
                   <XCircleIcon className="h-16 w-16 fill-red-400/90 hover:fill-red-400/100 transition-all duration-150 ease-linear" />
                 </button>

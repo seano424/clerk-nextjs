@@ -14,10 +14,12 @@ interface CardProps {
 }
 
 export default function GhostCard({ boardList, i, active }: CardProps) {
+  const bgColors = ['bg-theme-cyan', 'bg-theme-yellow', 'bg-white']
+
   return (
     <div
       className={clsx(
-        alternatingBgColor(i),
+        alternatingBgColor(i, bgColors),
         'text-theme-slate-900 rounded-[40px] capitalize p-5'
       )}
     >

@@ -1,8 +1,8 @@
-import React from 'react'
-import useUpdateActiveStatus from '@/helpers/useUpdateActiveStatus'
-import { CheckCircleIcon, ArrowUturnLeftIcon } from '@heroicons/react/24/solid'
-import { Todo } from './TasksList'
 import clsx from 'clsx'
+import { Todo } from './TasksList'
+import { toast } from 'react-toastify'
+import supabaseClient from '@/lib/supabaseClient'
+import { CheckCircleIcon, ArrowUturnLeftIcon } from '@heroicons/react/24/solid'
 
 interface ActiveButtonProps {
   active: boolean
@@ -19,10 +19,45 @@ export default function ActiveButton({
   userId,
   getToken,
 }: ActiveButtonProps) {
+  const updateActive = async (task: any) => {
+    const notify = (text: string) => toast(text)
+
+    const supabaseAccessToken = await getToken({
+      template: 'supabase',
+    })
+
+    const supabase = await supabaseClient(supabaseAccessToken)
+
+    try {
+      const { error } = await supabase
+        .from('todos')
+        .update({ active: !task?.active })
+        .eq('id', task.id)
+        .eq('user_id', userId)
+        .select()
+      setTodos((prevState: any) => {
+        if (prevState.id === task.id) {
+          return {
+            ...prevState,
+            active: !prevState.active,
+          }
+        }
+        return prevState
+      })
+      if (error) throw error
+    } catch (e) {
+      alert(e)
+    } finally {
+      task?.active
+        ? notify('Completed task! Good job 🎊')
+        : notify('Undoing that! Moved back to active! 💪🏽')
+    }
+  }
+
   return (
     <button
       disabled={!task}
-      onClick={() => useUpdateActiveStatus(task, setTodos, userId, getToken)}
+      onClick={() => updateActive(task)}
       className={clsx(
         !active &&
           'border-2 rounded-full p-2 border-theme-blue-900 hover:border-opacity-60 transition-all duration-150 ease-linear'

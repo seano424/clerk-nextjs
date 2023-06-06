@@ -7,5 +7,4 @@ export const timeConvert = (n: number) => {
   return rhours + 'h ' + rminutes + 'min'
 }
 
-const bgColors = ['bg-theme-cyan', 'bg-theme-yellow', 'bg-white']
-export const alternatingBgColor = (i: number) => bgColors[i % bgColors.length]
+export const alternatingBgColor = (i: number, bgColors: string[]) => bgColors[i % bgColors.length]
