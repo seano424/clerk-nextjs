@@ -4,17 +4,17 @@ import { toast } from 'react-toastify'
 import supabaseClient from '@/lib/supabaseClient'
 import { CheckCircleIcon, ArrowUturnLeftIcon } from '@heroicons/react/24/solid'
 
-interface ActiveButtonProps {
+interface UpdateActiveStateButtonProps {
   task: Todo
   userId: any
   getToken: any
 }
 
-export default function ActiveButton({
+export default function UpdateActiveStateButton({
   task,
   userId,
   getToken,
-}: ActiveButtonProps) {
+}: UpdateActiveStateButtonProps) {
   const updateActive = async (task: any) => {
     const notify = (text: string) => toast(text)
 
@@ -27,7 +27,7 @@ export default function ActiveButton({
     try {
       const { error } = await supabase
         .from('todos')
-        .update({ active: !task?.active })
+        .update({ active: !task.active })
         .eq('id', task.id)
         .eq('user_id', userId)
         .select()

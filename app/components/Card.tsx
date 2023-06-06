@@ -2,7 +2,7 @@
 
 import clsx from 'clsx'
 import { useAuth } from '@clerk/nextjs'
-import ActiveButton from './ActiveButton'
+import UpdateActiveStateButton from './UpdateActiveStateButton'
 import { toast } from 'react-toastify'
 import supabaseClient from '@/lib/supabaseClient'
 import { EllipsisHorizontalIcon, XCircleIcon } from '@heroicons/react/24/solid'
@@ -89,10 +89,8 @@ export default function Card({
           {!boardList && (
             <>
               <span>{timeConvert(task.time)}</span>
-              <ActiveButton
-                active={task!.active}
+              <UpdateActiveStateButton
                 getToken={getToken}
-                setTodos={setTodos}
                 task={task!}
                 userId={userId}
               />

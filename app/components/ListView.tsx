@@ -34,6 +34,7 @@ export default function ListView() {
   return (
     <>
       <ToastContainer
+        autoClose={700}
         hideProgressBar
         draggable
         theme="dark"
