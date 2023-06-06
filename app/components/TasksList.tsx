@@ -2,6 +2,7 @@
 import clsx from 'clsx'
 import Card from './Card'
 import { useState, Dispatch } from 'react'
+import GhostCard from './GhostCard'
 
 export type Todo = {
   title: string
@@ -74,7 +75,14 @@ export default function TasksList({ todos, setTodos }: TasksListProps) {
             .map((task, i) => (
               <Card setTodos={setTodos} task={task} i={i} key={task.id} />
             ))
-        : fakeTodos.map((_, i) => <Card setTodos={setTodos} i={i} key={i} />)}
+        : fakeTodos.map((_, i) => (
+            <GhostCard
+              boardList={false}
+              active={showActiveTasks}
+              key={i}
+              i={i}
+            />
+          ))}
     </div>
   )
 }

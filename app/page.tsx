@@ -12,8 +12,6 @@ export default async function Home() {
         <>
           <Hero />
           <ListView />
-          {/* <TasksList todos={todos} />
-          <TodoAddForm setTodos={setTodos} todos={todos} /> */}
         </>
       ) : (
         <div>Sign in to create your todo list</div>

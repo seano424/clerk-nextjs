@@ -19,6 +19,7 @@ export default function FilterView({
     <div className="flex justify-between pt-10 text-3xl font-light">
       {views.map((view, i) => (
         <button
+          key={i}
           onClick={() => setActiveListView(i === 0 ? 'task' : 'board')}
           className={clsx(
             active === i

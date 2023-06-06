@@ -3,20 +3,14 @@
 import clsx from 'clsx'
 import { useAuth } from '@clerk/nextjs'
 import ActiveButton from './ActiveButton'
-import {
-  CheckCircleIcon,
-  EllipsisHorizontalIcon,
-  XCircleIcon,
-  ArrowUturnLeftIcon,
-} from '@heroicons/react/24/solid'
+import { EllipsisHorizontalIcon, XCircleIcon } from '@heroicons/react/24/solid'
 import { Dispatch, SetStateAction } from 'react'
 import { timeConvert, alternatingBgColor } from '@/lib/utils'
 import useDeleteTodo from '@/helpers/useDeleteTodo'
-import useUpdateActiveStatus from '@/helpers/useUpdateActiveStatus'
 import Avatar from './Avatar'
 
 interface CardProps {
-  task?: {
+  task: {
     title: string
     created_at: string
     id: number
@@ -26,12 +20,19 @@ interface CardProps {
     active: boolean
     date: string
   }
+  relatedTasks?: number
   i: number
   boardList?: boolean
-  setTodos: Dispatch<SetStateAction<any>>
+  setTodos?: Dispatch<SetStateAction<any>>
 }
 
-export default function Card({ task, i, boardList, setTodos }: CardProps) {
+export default function Card({
+  task,
+  i,
+  boardList,
+  setTodos,
+  relatedTasks,
+}: CardProps) {
   const { getToken, userId } = useAuth()
 
   return (
@@ -51,7 +52,7 @@ export default function Card({ task, i, boardList, setTodos }: CardProps) {
           )}
           {!boardList && (
             <>
-              <span>{timeConvert(task?.time ?? 90)}</span>
+              <span>{timeConvert(task.time)}</span>
               <ActiveButton
                 active={task!.active}
                 getToken={getToken}
@@ -59,28 +60,34 @@ export default function Card({ task, i, boardList, setTodos }: CardProps) {
                 task={task!}
                 userId={userId}
               />
-              <button
-                disabled={!task}
-                onClick={() =>
-                  useDeleteTodo(task!.id, setTodos, userId, getToken)
-                }
-              >
-                <span className="sr-only">Delete task</span>
-                <XCircleIcon className="h-16 w-16 fill-theme-blue-900/90 hover:fill-theme-blue-900/100 transition-all duration-150 ease-linear" />
-              </button>
+              {!task.active && (
+                <button
+                  disabled={!task}
+                  onClick={() =>
+                    useDeleteTodo(task.id, setTodos, userId, getToken)
+                  }
+                >
+                  <span className="sr-only">Delete task</span>
+                  <XCircleIcon className="h-16 w-16 fill-red-400/90 hover:fill-red-400/100 transition-all duration-150 ease-linear" />
+                </button>
+              )}
             </>
           )}
         </div>
       </div>
       {boardList ? (
         <>
-          <p className="pt-5">2 active tasks</p>
-          <h4 className="text-2xl">{task?.board ?? 'My board'}</h4>
+          {relatedTasks && (
+            <p className="pt-5">
+              {relatedTasks} active task{relatedTasks > 1 && 's'}
+            </p>
+          )}
+          <h4 className="text-2xl">{task.board}</h4>
         </>
       ) : (
         <>
-          <p className="pt-5">{task?.board ?? 'My board'}</p>
-          <h4 className="text-2xl">{task?.title ?? 'Task Title'}</h4>
+          <p className="pt-5">{task.board}</p>
+          <h4 className="text-2xl">{task.title}</h4>
         </>
       )}
     </div>
