@@ -29,18 +29,23 @@ export default function ListView() {
       }
     }
     loadTodos()
-  }, [])
+  }, [todos])
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        hideProgressBar
+        draggable
+        theme="dark"
+        position="top-center"
+      />
       <Overview />
       <FilterView
         todos={todos}
         setActiveListView={setActiveListView}
         active={active}
       />
-      {!active && <TasksList todos={todos} />}
+      {!active && <TasksList setTodos={setTodos} todos={todos} />}
       {active && <BoardList todos={todos} />}
     </>
   )

@@ -1,7 +1,7 @@
 'use client'
 import clsx from 'clsx'
 import Card from './Card'
-import { useState } from 'react'
+import { useState, Dispatch } from 'react'
 
 export type TasksListProps = {
   todos: {
@@ -14,13 +14,14 @@ export type TasksListProps = {
     active: boolean
     date: string
   }[]
+  setTodos: Dispatch<any>
 }
 
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 const currentDate = new Date()
 const fakeTodos = Array(10).fill(5)
 
-export default function TasksList({ todos }: TasksListProps) {
+export default function TasksList({ todos, setTodos }: TasksListProps) {
   const [activeDay, setActiveDay] = useState(currentDate.getDay() - 1)
   const [showActiveTasks, setShowActiveTasks] = useState(true)
 
@@ -68,8 +69,10 @@ export default function TasksList({ todos }: TasksListProps) {
         ? todos
             .filter((todo) => new Date(todo.date).getDay() - 1 === activeDay)
             .filter((t) => t.active === showActiveTasks)
-            .map((task, i) => <Card task={task} i={i} key={task.id} />)
-        : fakeTodos.map((_, i) => <Card i={i} key={i} />)}
+            .map((task, i) => (
+              <Card setTodos={setTodos} task={task} i={i} key={task.id} />
+            ))
+        : fakeTodos.map((_, i) => <Card setTodos={setTodos} i={i} key={i} />)}
     </div>
   )
 }
