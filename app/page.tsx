@@ -1,22 +1,14 @@
-import { currentUser } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs'
 
 import ListView from './components/ListView'
 import Hero from './components/Hero'
-import TodoAddForm from './components/TodoAddForm'
 
 export default async function Home() {
-  const user = await currentUser()
-
+  const { session } = await auth()
   return (
     <main className="container">
-      {user ? (
-        <>
-          <Hero />
-          <ListView />
-        </>
-      ) : (
-        <div>Sign in to create your todo list</div>
-      )}
+      <Hero />
+      {session && <ListView />}
     </main>
   )
 }
