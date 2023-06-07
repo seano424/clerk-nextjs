@@ -10,7 +10,7 @@ import TasksList from './TasksList'
 import BoardList from './BoardList'
 
 export default function ListView() {
-  const { getToken } = useAuth()
+  const { getToken, isSignedIn } = useAuth()
   const [todos, setTodos] = useState<any>(null)
   const [activeListView, setActiveListView] = useState<'task' | 'board'>('task')
 
@@ -30,6 +30,8 @@ export default function ListView() {
     }
     loadTodos()
   }, [todos])
+
+  if (!isSignedIn) return <></>
 
   return (
     <>
