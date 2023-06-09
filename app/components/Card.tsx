@@ -7,7 +7,9 @@ import { toast } from 'react-toastify'
 import supabaseClient from '@/lib/supabaseClient'
 import { EllipsisHorizontalIcon, XCircleIcon } from '@heroicons/react/24/solid'
 import { Dispatch, SetStateAction } from 'react'
-import { timeConvert, alternatingBgColor } from '@/lib/utils'
+
+import timeConvert from '@/utils/timeConvert'
+import alternatingBgColor from '@/utils/alternatingBgColor'
 import Avatar from './Avatar'
 
 interface CardProps {

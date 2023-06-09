@@ -1,4 +1,4 @@
-export const timeConvert = (n: number) => {
+const timeConvert = (n: number) => {
   var num = n
   var hours = num / 60
   var rhours = Math.floor(hours)
@@ -7,4 +7,4 @@ export const timeConvert = (n: number) => {
   return rhours + 'h ' + rminutes + 'min'
 }
 
-export const alternatingBgColor = (i: number, bgColors: string[]) => bgColors[i % bgColors.length]
+export default timeConvert

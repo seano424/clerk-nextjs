@@ -14,7 +14,6 @@ export default function ListView() {
   const [todos, setTodos] = useState<any>(null)
   const [activeListView, setActiveListView] = useState<'task' | 'board'>('task')
   const [percentageActive, setPercentageActive] = useState(100)
-
   const active = activeListView === 'task' ? 0 : 1
 
   useEffect(() => {
