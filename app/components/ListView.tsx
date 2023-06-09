@@ -2,7 +2,7 @@
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
 import { useAuth } from '@clerk/nextjs'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import supabaseClient from '@/lib/supabaseClient'
 import FilterView from './FilterView'
 import Overview from './Overview'
@@ -18,6 +18,7 @@ export default function ListView() {
   const [activeListView, setActiveListView] = useState<'task' | 'board'>('task')
   const [percentageActive, setPercentageActive] = useState(100)
   const active = activeListView === 'task' ? 0 : 1
+  const modal = useRef<HTMLDialogElement>(null)
 
   async function getTodos() {
     try {
@@ -40,14 +41,34 @@ export default function ListView() {
   }
 
   useEffect(() => {
-    // getTodos()
-    todos && getPercentageActive(todos)
+    getTodos()
+    todos.length > 1 && getPercentageActive(todos)
   }, [todos])
 
   if (!isSignedIn) return <></>
 
+  const handleOpenModal = () => {
+    modal.current?.showModal()
+  }
+
   return (
     <>
+      <dialog
+        ref={modal}
+        className="border-8 fixed inset-0 z-50 w-full container h-full"
+        open
+      >
+        <p>Greetings, one and all!</p>
+        <form method="dialog">
+          <button>OK</button>
+        </form>
+      </dialog>
+      <button
+        onClick={handleOpenModal}
+        className="text-white border-8 my-10 rounded-full px-5 py-3"
+      >
+        open modal!
+      </button>
       <ToastContainer
         autoClose={700}
         hideProgressBar

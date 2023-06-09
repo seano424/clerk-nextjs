@@ -65,7 +65,7 @@ export default function Card({
     }
   }
 
-  const date = new Date(task.date)
+  const date = new Date(task.date ?? '')
 
   return (
     <div
@@ -96,6 +96,9 @@ export default function Card({
                   <XCircleIcon className="h-16 w-16 fill-red-500/80 hover:fill-red-500/100 transition-all duration-150 ease-linear" />
                 </button>
               )}
+              <button>
+                <EllipsisHorizontalIcon className="h-10 w-10" />
+              </button>
             </>
           )}
         </div>
