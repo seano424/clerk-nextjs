@@ -7,8 +7,8 @@ import { EllipsisHorizontalIcon, XCircleIcon } from '@heroicons/react/24/solid'
 import Avatar from './Avatar'
 
 interface CardProps {
-  boardList: boolean
-  active: boolean
+  boardList?: boolean
+  active?: boolean
 }
 
 export default function SkeletonCard({ boardList, active }: CardProps) {
@@ -55,17 +55,9 @@ export default function SkeletonCard({ boardList, active }: CardProps) {
           )}
         </div>
       </div>
-      {boardList ? (
-        <>
-          <p className="pt-5">2 active tasks</p>
-          <h4 className="text-2xl">My board</h4>
-        </>
-      ) : (
-        <>
-          <p className="mt-5 bg-slate-300 w-24 h-6 animate-pulse-slow"></p>
-          <h4 className="mt-1 text-2xl bg-slate-300 w-36 h-8 animate-pulse-slow"></h4>
-        </>
-      )}
+
+      <p className="mt-5 bg-slate-300 w-24 h-6 animate-pulse-slow"></p>
+      <h4 className="mt-1 text-2xl bg-slate-300 w-36 h-8 animate-pulse-slow"></h4>
     </div>
   )
 }

@@ -3,31 +3,18 @@
 import clsx from 'clsx'
 import Card from './Card'
 import { useState, Dispatch } from 'react'
-import SkeletonCard from './SkeletonCard'
 import TodoAddForm from './TodoAddForm'
-
-export type Todo = {
-  title: string
-  created_at: string
-  id: number
-  user_id: string
-  board: string
-  time: number
-  active: boolean
-  date: string
-}
+import { Database } from '@/types/supabase'
+import SkeletonCard from './SkeletonCard'
 
 export type TasksListProps = {
-  todos: Todo[]
+  todos: Database['public']['Tables']['todos']['Row'][]
   setTodos: Dispatch<any>
 }
 
-const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-const currentDate = new Date()
 const fakeTodos = Array(2).fill(5)
 
 export default function TasksList({ todos, setTodos }: TasksListProps) {
-  const [activeDay, setActiveDay] = useState(currentDate.getDay() - 1)
   const [showActiveTasks, setShowActiveTasks] = useState(true)
 
   return (
@@ -58,15 +45,15 @@ export default function TasksList({ todos, setTodos }: TasksListProps) {
       </div>
 
       {todos
-        ? todos
-            .filter((t) => t.active === showActiveTasks)
-            .map((task, i) => (
-              <Card setTodos={setTodos} task={task} i={i} key={task.id} />
-            ))
-        : fakeTodos.map((_, i) => (
-            <SkeletonCard boardList={false} active={showActiveTasks} key={i} />
-          ))}
+        .filter((t) => t.active === showActiveTasks)
+        .map((task, i) => (
+          <Card setTodos={setTodos} task={task} i={i} key={task.id} />
+        ))}
 
+      {todos.length === 0 &&
+        fakeTodos.map((_, i) => (
+          <SkeletonCard active={showActiveTasks} key={i} />
+        ))}
       <TodoAddForm />
     </div>
   )

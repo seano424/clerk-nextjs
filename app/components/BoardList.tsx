@@ -1,6 +1,9 @@
 'use client'
 import Card from './Card'
 import { TasksListProps } from './TasksList'
+import SkeletonCard from './SkeletonCard'
+
+const fakeTodos = Array(2).fill(5)
 
 export default function BoardList({ todos }: TasksListProps) {
   const key = 'board'
@@ -15,13 +18,16 @@ export default function BoardList({ todos }: TasksListProps) {
     <div className="pt-5 min-h-screen">
       {arrayUniqueByKey.map((task, i) => (
         <Card
-          relatedTasks={count(task.board)}
+          relatedTasks={count(task.board ?? '')}
           boardList
           task={task}
           i={i}
           key={task.id}
         />
       ))}
+
+      {todos.length === 0 &&
+        fakeTodos.map((_, i) => <SkeletonCard active boardList key={i} />)}
     </div>
   )
 }

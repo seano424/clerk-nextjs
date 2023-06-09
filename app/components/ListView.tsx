@@ -13,7 +13,7 @@ import { Database } from '@/types/supabase'
 export default function ListView() {
   const { getToken, isSignedIn } = useAuth()
   const [todos, setTodos] = useState<
-    Database['public']['Tables']['todos']['Row'][] | null | []
+    Database['public']['Tables']['todos']['Row'][] | []
   >([])
   const [activeListView, setActiveListView] = useState<'task' | 'board'>('task')
   const [percentageActive, setPercentageActive] = useState(100)
@@ -24,7 +24,7 @@ export default function ListView() {
       const supabaseAccessToken = await getToken({ template: 'supabase' })
       const supabase = await supabaseClient(supabaseAccessToken)
       const { data: todos } = await supabase.from('todos').select('*')
-      setTodos(todos)
+      setTodos(todos ?? [])
     } catch (error) {
       alert(error)
     } finally {
@@ -40,7 +40,7 @@ export default function ListView() {
   }
 
   useEffect(() => {
-    getTodos()
+    // getTodos()
     todos && getPercentageActive(todos)
   }, [todos])
 
@@ -61,6 +61,7 @@ export default function ListView() {
         setActiveListView={setActiveListView}
         active={active}
       />
+
       {!active && <TasksList setTodos={setTodos} todos={todos} />}
       {active && <BoardList setTodos={setTodos} todos={todos} />}
     </>

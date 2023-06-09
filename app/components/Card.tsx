@@ -11,18 +11,10 @@ import { Dispatch, SetStateAction } from 'react'
 import timeConvert from '@/utils/timeConvert'
 import alternatingBgColor from '@/utils/alternatingBgColor'
 import Avatar from './Avatar'
+import { Database } from '@/types/supabase'
 
 interface CardProps {
-  task: {
-    title: string
-    created_at: string
-    id: number
-    user_id: string
-    board: string
-    time: number
-    active: boolean
-    date: string
-  }
+  task: Database['public']['Tables']['todos']['Row']
   relatedTasks?: number
   i: number
   boardList?: boolean
@@ -122,7 +114,9 @@ export default function Card({
           <p className="pt-5">{task.board}</p>
           <h4 className="text-2xl">{task.title}</h4>
           <p>{date.toDateString()}</p>
-          <p className='text-sm text-theme-blue-300'>{task.active ? 'Active' : 'Finished'}</p>
+          <p className="text-sm text-theme-blue-300">
+            {task.active ? 'Active' : 'Finished'}
+          </p>
         </>
       )}
     </div>
