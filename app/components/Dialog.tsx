@@ -14,12 +14,7 @@ export default function Dialog() {
       setModal((prevState) => ({ ...prevState, open: false }))
   }, [modal])
 
-  const bgColors = [
-    'bg-theme-cyan',
-    'bg-theme-yellow',
-    'bg-white',
-    'bg-gray-100',
-  ]
+  const bgColors = ['bg-theme-cyan', 'bg-theme-yellow', 'bg-white']
 
   return (
     <>
@@ -32,16 +27,11 @@ export default function Dialog() {
       >
         <p>Greetings, one and all!</p>
         <p>{modal.data?.title}</p>
+        <form></form>
         <form method="dialog">
           <button>OK</button>
         </form>
       </dialog>
-      {/* <button
-        onClick={() => setModal((prevState) => ({ ...prevState, open: true }))}
-        className="text-white border-8 my-10 rounded-full px-5 py-3"
-      >
-        open modal!
-      </button> */}
     </>
   )
 }

@@ -10,22 +10,24 @@ function TodoAddForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const supabaseAccessToken = await getToken({
-      template: 'supabase',
-    })
-    const supabase = await supabaseClient(supabaseAccessToken)
-    try {
-      const { error } = await supabase
-        .from('todos')
-        .insert({
-          title: title,
-          user_id: userId,
-          board: board.length ? board : 'myself',
-        })
-        .select()
-      if (error) throw error
-    } catch (error) {
-      console.log(error)
+    if (userId) {
+      const supabaseAccessToken = await getToken({
+        template: 'supabase',
+      })
+      const supabase = await supabaseClient(supabaseAccessToken)
+      try {
+        const { error } = await supabase
+          .from('todos')
+          .insert({
+            title: title,
+            user_id: userId,
+            board: board.length ? board : 'myself',
+          })
+          .select()
+        if (error) throw error
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
   return (
