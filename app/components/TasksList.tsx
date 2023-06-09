@@ -2,6 +2,7 @@
 
 import clsx from 'clsx'
 import Card from './Card'
+import { atom } from 'jotai'
 import { useAuth } from '@clerk/nextjs'
 import { useState, Dispatch } from 'react'
 import { Database } from '@/types/supabase'

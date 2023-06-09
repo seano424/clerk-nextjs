@@ -9,9 +9,11 @@ import Overview from './Overview'
 import TasksList from './TasksList'
 import BoardList from './BoardList'
 import { Database } from '@/types/supabase'
+import Dialog from './Dialog'
 
 export default function ListView() {
   const { getToken } = useAuth()
+
   const [todos, setTodos] = useState<
     Database['public']['Tables']['todos']['Row'][] | []
   >([])
@@ -42,6 +44,7 @@ export default function ListView() {
 
   return (
     <>
+      <Dialog />
       <Overview percentageActive={percentageActive} />
       <FilterList
         todos={todos}
