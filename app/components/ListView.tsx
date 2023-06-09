@@ -8,27 +8,40 @@ import FilterView from './FilterView'
 import Overview from './Overview'
 import TasksList from './TasksList'
 import BoardList from './BoardList'
+import { Database } from '@/types/supabase'
 
 export default function ListView() {
   const { getToken, isSignedIn } = useAuth()
-  const [todos, setTodos] = useState<any>(null)
+  const [todos, setTodos] = useState<
+    Database['public']['Tables']['todos']['Row'][] | null | []
+  >([])
   const [activeListView, setActiveListView] = useState<'task' | 'board'>('task')
   const [percentageActive, setPercentageActive] = useState(100)
   const active = activeListView === 'task' ? 0 : 1
 
-  useEffect(() => {
-    const loadTodos = async () => {
-      try {
-        const supabaseAccessToken = await getToken({ template: 'supabase' })
-        const supabase = await supabaseClient(supabaseAccessToken)
-        const { data: todos } = await supabase.from('todos').select('*')
-        setTodos(todos)
-      } catch (error) {
-        alert(error)
-      } finally {
-      }
+  async function getTodos() {
+    try {
+      const supabaseAccessToken = await getToken({ template: 'supabase' })
+      const supabase = await supabaseClient(supabaseAccessToken)
+      const { data: todos } = await supabase.from('todos').select('*')
+      setTodos(todos)
+    } catch (error) {
+      alert(error)
+    } finally {
     }
-    loadTodos()
+  }
+
+  async function getPercentageActive(
+    todos: Database['public']['Tables']['todos']['Row'][]
+  ) {
+    const activeTodos =
+      todos.filter((todo) => todo.active === false).length / todos.length
+    setPercentageActive(activeTodos * 100)
+  }
+
+  useEffect(() => {
+    getTodos()
+    todos && getPercentageActive(todos)
   }, [todos])
 
   if (!isSignedIn) return <></>
