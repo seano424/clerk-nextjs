@@ -1,17 +1,17 @@
 import clsx from 'clsx'
 const views = ['Task', 'Boards']
 
-interface FilterViewProps {
+interface FilterListProps {
   todos: any
   active: number
   setActiveListView: (view: 'task' | 'board') => void
 }
 
-export default function FilterView({
+export default function FilterList({
   todos,
   active,
   setActiveListView,
-}: FilterViewProps) {
+}: FilterListProps) {
   const boardsMap = todos?.map((todo: any) => todo.board)
   const boards = [...new Set(boardsMap)]
 

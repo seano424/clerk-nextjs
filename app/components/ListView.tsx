@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify'
 import { useAuth } from '@clerk/nextjs'
 import { useState, useEffect, useRef } from 'react'
 import supabaseClient from '@/lib/supabaseClient'
-import FilterView from './FilterView'
+import FilterList from './FilterList'
 import Overview from './Overview'
 import TasksList from './TasksList'
 import BoardList from './BoardList'
@@ -77,7 +77,7 @@ export default function ListView() {
         position="top-center"
       />
       <Overview percentageActive={percentageActive} />
-      <FilterView
+      <FilterList
         todos={todos}
         setActiveListView={setActiveListView}
         active={active}

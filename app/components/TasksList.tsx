@@ -3,7 +3,6 @@
 import clsx from 'clsx'
 import Card from './Card'
 import { useState, Dispatch } from 'react'
-import TodoAddForm from './TodoAddForm'
 import { Database } from '@/types/supabase'
 import SkeletonCard from './SkeletonCard'
 
@@ -54,7 +53,6 @@ export default function TasksList({ todos, setTodos }: TasksListProps) {
         fakeTodos.map((_, i) => (
           <SkeletonCard active={showActiveTasks} key={i} />
         ))}
-      <TodoAddForm />
     </div>
   )
 }
