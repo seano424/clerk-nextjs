@@ -21,7 +21,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`flex flex-col min-h-screen bg-theme-blue-900 ${workSans.className}`}
+          className={`flex flex-col min-h-screen bg-theme-blue-900 max-w-4xl mx-auto ${workSans.className}`}
         >
           {/* @ts-expect-error Server Component */}
           <Header />
