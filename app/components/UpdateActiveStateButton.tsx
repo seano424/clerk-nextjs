@@ -47,16 +47,16 @@ export default function UpdateActiveStateButton({
       onClick={() => updateActive(task)}
       className={clsx(
         !task.active &&
-          'border-2 rounded-full p-2 border-theme-blue-900 hover:border-opacity-60 transition-all duration-150 ease-linear'
+          'group border-4 rounded-full p-[5px] border-theme-blue-300 hover:border-theme-blue-700 transition-all duration-300 ease-linear'
       )}
     >
       <span className="sr-only">
         {task.active ? 'Mark task done' : 'Undo marking task done'}
       </span>
       {task.active ? (
-        <CheckCircleIcon className="h-16 w-16 fill-theme-blue-900/90 hover:fill-theme-blue-900/100 transition-all duration-150 ease-linear" />
+        <CheckCircleIcon className="h-16 w-16 fill-theme-blue-300/100 group-hover:fill-red-500/90 transition-all duration-200 ease-linear" />
       ) : (
-        <ArrowUturnLeftIcon className="h-8 w-8 fill-theme-blue-900/90 hover:fill-theme-blue-900/100 transition-all duration-150 ease-linear" />
+        <ArrowUturnLeftIcon className="h-8 w-8 fill-theme-blue-300 group-hover:fill-theme-blue-900 transition-all duration-300 ease-linear" />
       )}
     </button>
   )

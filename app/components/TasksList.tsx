@@ -53,26 +53,12 @@ export default function TasksList({ todos, setTodos }: TasksListProps) {
               : 'text-white border-theme-blue-700 border hover:text-opacity-95'
           )}
         >
-          Done
+          Finished
         </button>
       </div>
-      <div className="flex justify-between px-10 pb-10">
-        {days.map((day, i) => (
-          <button
-            onClick={() => setActiveDay(i)}
-            className={clsx(
-              'text-lg',
-              activeDay === i ? 'text-white' : 'text-theme-slate-500'
-            )}
-            key={day}
-          >
-            {day}
-          </button>
-        ))}
-      </div>
+
       {todos
         ? todos
-            .filter((todo) => new Date(todo.date).getDay() - 1 === activeDay)
             .filter((t) => t.active === showActiveTasks)
             .map((task, i) => (
               <Card setTodos={setTodos} task={task} i={i} key={task.id} />

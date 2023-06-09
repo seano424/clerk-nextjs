@@ -71,6 +71,8 @@ export default function Card({
     }
   }
 
+  const date = new Date(task.date)
+
   return (
     <div
       className={clsx(
@@ -97,7 +99,7 @@ export default function Card({
               {!task.active && (
                 <button disabled={!task} onClick={() => deleteTodo(task.id)}>
                   <span className="sr-only">Delete task</span>
-                  <XCircleIcon className="h-16 w-16 fill-red-400/90 hover:fill-red-400/100 transition-all duration-150 ease-linear" />
+                  <XCircleIcon className="h-16 w-16 fill-red-500/80 hover:fill-red-500/100 transition-all duration-150 ease-linear" />
                 </button>
               )}
             </>
@@ -117,6 +119,8 @@ export default function Card({
         <>
           <p className="pt-5">{task.board}</p>
           <h4 className="text-2xl">{task.title}</h4>
+          <p>{date.toDateString()}</p>
+          <p className='text-sm text-theme-blue-300'>{task.active ? 'Active' : 'Finished'}</p>
         </>
       )}
     </div>
