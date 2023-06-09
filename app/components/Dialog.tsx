@@ -1,18 +1,11 @@
-import React, { useRef, useEffect } from 'react'
+import clsx from 'clsx'
 import { useAtom } from 'jotai'
-import { modalAtom } from './Card'
+import modalAtom from '@/lib/modalAtom'
+import React, { useRef, useEffect } from 'react'
 
 export default function Dialog() {
   const modalRef = useRef<HTMLDialogElement>(null)
   const [modal, setModal] = useAtom(modalAtom)
-
-  // const handleModal = async () => {
-  //   setModal((prevState) => ({ ...prevState, open: true }))
-  //   modal.open
-  //     ? modalRef.current?.showModal()
-  //     : modalRef.current?.close() &&
-  //       setModal((prevState) => ({ ...prevState, open: false }))
-  // }
 
   useEffect(() => {
     modal.open && modalRef.current?.showModal()
@@ -21,11 +14,21 @@ export default function Dialog() {
       setModal((prevState) => ({ ...prevState, open: false }))
   }, [modal])
 
+  const bgColors = [
+    'bg-theme-cyan',
+    'bg-theme-yellow',
+    'bg-white',
+    'bg-gray-100',
+  ]
+
   return (
     <>
       <dialog
         ref={modalRef}
-        className="border-8 fixed inset-0 z-50 w-full container h-full"
+        className={clsx(
+          'border-8 fixed inset-0 z-50 w-full container h-full',
+          bgColors[modal.bgColor]
+        )}
       >
         <p>Greetings, one and all!</p>
         <p>{modal.data?.title}</p>

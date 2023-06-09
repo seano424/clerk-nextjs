@@ -2,9 +2,10 @@
 
 import clsx from 'clsx'
 import { toast } from 'react-toastify'
-import { atom, useAtom } from 'jotai'
+import { useSetAtom } from 'jotai'
 import { useAuth } from '@clerk/nextjs'
 import { Database } from '@/types/supabase'
+import modalAtom from '@/lib/modalAtom'
 import { Dispatch, SetStateAction } from 'react'
 import supabaseClient from '@/lib/supabaseClient'
 import { EllipsisHorizontalIcon, XCircleIcon } from '@heroicons/react/24/solid'
@@ -22,16 +23,6 @@ interface CardProps {
   setTodos?: Dispatch<SetStateAction<any>>
 }
 
-export const modalAtom = atom<{
-  open: boolean
-  data: Database['public']['Tables']['todos']['Row'] | null
-}>({
-  open: false,
-  data: null,
-})
-
-const testAtom = atom<string>('')
-
 export default function Card({
   task,
   i,
@@ -40,9 +31,10 @@ export default function Card({
   relatedTasks,
 }: CardProps) {
   const { getToken, userId } = useAuth()
-  const [modal, setModal] = useAtom(modalAtom)
+  const setModal = useSetAtom(modalAtom)
 
   const bgColors = ['bg-theme-cyan', 'bg-theme-yellow', 'bg-white']
+  const bgColor = alternatingBgColor(i, bgColors)
 
   const deleteTodo = async (id: string | number) => {
     const notify = (text: string) => toast(text)
@@ -80,14 +72,10 @@ export default function Card({
 
   const date = new Date(task.date ?? '')
 
-  const handleModal = () => {
-    setModal({ open: !modal.open, data: task })
-  }
-
   return (
     <div
       className={clsx(
-        alternatingBgColor(i, bgColors),
+        bgColor,
         'text-theme-slate-900 rounded-[40px] capitalize p-5'
       )}
     >
@@ -95,7 +83,9 @@ export default function Card({
         <Avatar />
         <div className="flex gap-2 items-center">
           {boardList && (
-            <button onClick={() => setModal({ data: task, open: true })}>
+            <button
+              onClick={() => setModal({ data: task, open: true, bgColor: i })}
+            >
               <EllipsisHorizontalIcon className="h-10 w-10" />
             </button>
           )}
@@ -113,7 +103,9 @@ export default function Card({
                   <XCircleIcon className="h-16 w-16 fill-red-500/80 hover:fill-red-500/100 transition-all duration-150 ease-linear" />
                 </button>
               )}
-              <button onClick={() => setModal({ data: task, open: true })}>
+              <button
+                onClick={() => setModal({ data: task, open: true, bgColor: i })}
+              >
                 <EllipsisHorizontalIcon className="h-10 w-10" />
               </button>
             </>
