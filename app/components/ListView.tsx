@@ -1,6 +1,6 @@
 'use client'
 import 'react-toastify/dist/ReactToastify.css'
-import { ToastContainer } from 'react-toastify'
+
 import { useAuth } from '@clerk/nextjs'
 import { useState, useEffect } from 'react'
 import supabaseClient from '@/lib/supabaseClient'
@@ -42,13 +42,6 @@ export default function ListView() {
 
   return (
     <>
-      <ToastContainer
-        autoClose={700}
-        hideProgressBar
-        draggable
-        theme="dark"
-        position="top-center"
-      />
       <Overview percentageActive={percentageActive} />
       <FilterList
         todos={todos}
