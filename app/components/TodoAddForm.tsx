@@ -15,7 +15,7 @@ function TodoAddForm() {
     })
     const supabase = await supabaseClient(supabaseAccessToken)
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('todos')
         .insert({
           title: title,

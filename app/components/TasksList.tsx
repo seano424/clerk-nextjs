@@ -1,4 +1,5 @@
 'use client'
+
 import clsx from 'clsx'
 import Card from './Card'
 import { useState, Dispatch } from 'react'
@@ -80,7 +81,7 @@ export default function TasksList({ todos, setTodos }: TasksListProps) {
             <SkeletonCard boardList={false} active={showActiveTasks} key={i} />
           ))}
 
-      <TodoAddForm setTodos={setTodos} todos={todos} />
+      <TodoAddForm />
     </div>
   )
 }
