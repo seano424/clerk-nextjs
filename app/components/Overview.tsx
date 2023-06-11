@@ -38,7 +38,7 @@ const nth = (d: number) => {
 }
 
 interface OverviewProps {
-  percentageActive: number
+  percentageActive: number | null
 }
 
 export default function Overview({ percentageActive }: OverviewProps) {
@@ -48,14 +48,18 @@ export default function Overview({ percentageActive }: OverviewProps) {
     <div className="flex-col flex">
       <div className="flex justify-between text-xl text-white">
         <span>Today&apos;s {days[date.getDay()]}</span>
-        <span>{percentageActive.toFixed(0)}% done</span>
+        {percentageActive && <span>{percentageActive.toFixed(0)}% done</span>}
       </div>
       <div className="flex justify-between text-lg text-theme-slate-500">
         <span>
           {months[date.getMonth()]} {date.getDate()}
           {nth(date.getDate())}, {date.getFullYear()}
         </span>
-        <span>Completed Tasks</span>
+        {percentageActive ? (
+          <span>Completed Tasks</span>
+        ) : (
+          <span>Awaiting Tasks...</span>
+        )}
       </div>
     </div>
   )

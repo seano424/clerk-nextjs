@@ -19,7 +19,7 @@ export default function ListView() {
     Database['public']['Tables']['todos']['Row'][] | []
   >([])
   const [activeListView, setActiveListView] = useState<'task' | 'board'>('task')
-  const [percentageActive, setPercentageActive] = useState(100)
+  const [percentageActive, setPercentageActive] = useState<number | null>(null)
   const active = activeListView === 'task' ? 0 : 1
 
   async function getTodos() {
