@@ -20,7 +20,7 @@ export default async function Hero() {
       </span>
       {!user && (
         <div className="text-2xl sm:text-3xl text-white">
-          <h2>Welcome to your favorite Task App!</h2>
+          <h2>Welcome to your favorite Todo App!</h2>
           <h2 className="mb-20">Sign in to get started.</h2>
           <Link
             className="bg-theme-yellow text-theme-blue-900 py-2 px-4 rounded-md font-bold"

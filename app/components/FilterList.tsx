@@ -1,10 +1,10 @@
 import clsx from 'clsx'
-const views = ['Task', 'Boards']
+const views = ['Todos', 'Boards']
 
 interface FilterListProps {
   todos: any
   active: number
-  setActiveListView: (view: 'task' | 'board') => void
+  setActiveListView: (view: 'todo' | 'board') => void
 }
 
 export default function FilterList({
@@ -20,7 +20,7 @@ export default function FilterList({
       {views.map((view, i) => (
         <button
           key={i}
-          onClick={() => setActiveListView(i === 0 ? 'task' : 'board')}
+          onClick={() => setActiveListView(i === 0 ? 'todo' : 'board')}
           className={clsx(
             active === i
               ? 'text-theme-blue-300 border-white'

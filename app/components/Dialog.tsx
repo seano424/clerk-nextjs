@@ -34,9 +34,9 @@ export default function Dialog() {
       dialog.current?.close() &&
         setModal({ data: initialData, open: false, bgColor: 0 })
       if (id === 0) {
-        toast.success('Task created successfully!')
+        toast.success('Todo created successfully!')
       } else {
-        toast.success('Task updated successfully!')
+        toast.success('Todo updated successfully!')
       }
       if (error) throw error
     } catch (error) {

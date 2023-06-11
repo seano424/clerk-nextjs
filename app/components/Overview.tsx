@@ -56,9 +56,9 @@ export default function Overview({ percentageActive }: OverviewProps) {
           {nth(date.getDate())}, {date.getFullYear()}
         </span>
         {percentageActive ? (
-          <span>Completed Tasks</span>
+          <span>Completed Todos</span>
         ) : (
-          <span>Awaiting Tasks...</span>
+          <span>Awaiting Todos...</span>
         )}
       </div>
     </div>

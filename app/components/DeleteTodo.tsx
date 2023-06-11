@@ -25,12 +25,12 @@ export default function DeleteTodo({ id }: { id: string | number }) {
     } catch (e) {
       console.log(e)
     } finally {
-      toast('Deleted task! 🗑')
+      toast('Deleted todo! 🗑')
     }
   }
   return (
     <button onClick={deleteTodo}>
-      <span className="sr-only">Delete task</span>
+      <span className="sr-only">Delete todo</span>
       <XCircleIcon className="h-16 w-16 fill-red-500/80 hover:fill-red-500/100 transition-all duration-150 ease-linear" />
     </button>
   )

@@ -40,7 +40,7 @@ function TodoAddForm() {
         onChange={(e) => setTitle(e.target.value)}
         value={title}
         type="text"
-        placeholder="Add a task"
+        placeholder="Add a todo"
       />
       <input
         className="border rounded p-2"

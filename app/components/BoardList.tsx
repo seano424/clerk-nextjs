@@ -1,12 +1,16 @@
 'use client'
 import Card from './Card'
-import { TasksListProps } from './TasksList'
+import { Database } from '@/types/supabase'
 import SkeletonCard from './SkeletonCard'
 import { useAuth } from '@clerk/nextjs'
 
 const fakeTodos = Array(2).fill(5)
 
-export default function BoardList({ todos }: TasksListProps) {
+export default function BoardList({
+  todos,
+}: {
+  todos: Database['public']['Tables']['todos']['Row'][]
+}) {
   const { isSignedIn } = useAuth()
   const key = 'board'
   const arrayUniqueByKey = [
@@ -18,13 +22,13 @@ export default function BoardList({ todos }: TasksListProps) {
   }
   return (
     <div className="pt-5 min-h-screen">
-      {arrayUniqueByKey.map((task, i) => (
+      {arrayUniqueByKey.map((todo, i) => (
         <Card
-          relatedTasks={count(task.board ?? '')}
+          relatedTodos={count(todo.board ?? '')}
           boardList
-          task={task}
+          todo={todo}
           i={i}
-          key={task.id}
+          key={todo.id}
         />
       ))}
 

@@ -37,7 +37,7 @@ export default function SkeletonCard({ boardList, active }: CardProps) {
                 )}
               >
                 <span className="sr-only">
-                  {active ? 'Mark task done' : 'Undo marking task done'}
+                  {active ? 'Mark todo done' : 'Undo marking todo done'}
                 </span>
                 {active ? (
                   <CheckCircleIcon className="h-16 w-16 fill-theme-slate-900/90 animate-pulse-super-slow hover:fill-theme-slate-900/100 transition-all duration-150 ease-linear" />
@@ -47,7 +47,7 @@ export default function SkeletonCard({ boardList, active }: CardProps) {
               </button>
               {!active && (
                 <button disabled>
-                  <span className="sr-only">Delete task</span>
+                  <span className="sr-only">Delete todo</span>
                   <XCircleIcon className="h-16 w-16 fill-theme-slate-900/90 animate-pulse-super-slow hover:fill-theme-slate-900/100 transition-all duration-150 ease-linear" />
                 </button>
               )}

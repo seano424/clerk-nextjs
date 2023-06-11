@@ -12,15 +12,15 @@ import modalAtom from '@/lib/modalAtom'
 import { initialData } from '@/lib/modalAtom'
 import DialogButton from './DialogButton'
 
-export type TasksListProps = {
+export type TodosListProps = {
   todos: Database['public']['Tables']['todos']['Row'][]
   setTodos: Dispatch<any>
 }
 
 const fakeTodos = Array(2).fill(5)
 
-export default function TasksList({ todos, setTodos }: TasksListProps) {
-  const [showActiveTasks, setShowActiveTasks] = useState(true)
+export default function TodosList({ todos, setTodos }: TodosListProps) {
+  const [showActiveTodos, setShowActiveTodos] = useState(true)
   const { isSignedIn } = useAuth()
   const setModal = useSetAtom(modalAtom)
 
@@ -41,10 +41,10 @@ export default function TasksList({ todos, setTodos }: TasksListProps) {
         {todos.length > 0 && (
           <div className="flex items-center justify-end pb-8 pt-5 px-10">
             <button
-              onClick={() => setShowActiveTasks(true)}
+              onClick={() => setShowActiveTodos(true)}
               className={clsx(
                 'rounded-full px-7 py-4',
-                showActiveTasks
+                showActiveTodos
                   ? 'text-theme-blue-900 bg-theme-blue-300 hover:bg-opacity-95'
                   : 'text-white border-theme-blue-700 border hover:text-opacity-95'
               )}
@@ -52,10 +52,10 @@ export default function TasksList({ todos, setTodos }: TasksListProps) {
               Active
             </button>
             <button
-              onClick={() => setShowActiveTasks(false)}
+              onClick={() => setShowActiveTodos(false)}
               className={clsx(
                 'rounded-full px-7 py-4',
-                !showActiveTasks
+                !showActiveTodos
                   ? 'text-theme-blue-900 bg-theme-blue-300 hover:bg-opacity-95'
                   : 'text-white border-theme-blue-700 border hover:text-opacity-95'
               )}
@@ -66,15 +66,15 @@ export default function TasksList({ todos, setTodos }: TasksListProps) {
         )}
 
         {todos
-          .filter((t) => t.active === showActiveTasks)
-          .map((task, i) => (
-            <Card setTodos={setTodos} task={task} i={i} key={task.id} />
+          .filter((t) => t.active === showActiveTodos)
+          .map((todo, i) => (
+            <Card setTodos={setTodos} todo={todo} i={i} key={todo.id} />
           ))}
 
         {isSignedIn &&
           todos.length === 0 &&
           fakeTodos.map((_, i) => (
-            <SkeletonCard active={showActiveTasks} key={i} />
+            <SkeletonCard active={showActiveTodos} key={i} />
           ))}
         <div className="flex justify-center mt-5">
           <DialogButton className="rounded-full text-5xl font-light h-20 w-20 bg-white">

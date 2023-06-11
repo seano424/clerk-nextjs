@@ -8,23 +8,23 @@ import UpsertTodo from './UpsertTodo'
 
 import Avatar from './Avatar'
 import DeleteTodo from './DeleteTodo'
-import UpdateActiveStateButton from './UpdateActiveStateButton'
+import UpdateActiveTodo from './UpdateActiveTodo'
 import timeConvert from '@/utils/timeConvert'
 import alternatingBgColor from '@/utils/alternatingBgColor'
 
 interface CardProps {
-  task: Database['public']['Tables']['todos']['Row']
-  relatedTasks?: number
+  todo: Database['public']['Tables']['todos']['Row']
+  relatedTodos?: number
   i: number
   boardList?: boolean
   setTodos?: Dispatch<SetStateAction<any>>
 }
 
-export default function Card({ task, i, boardList, relatedTasks }: CardProps) {
+export default function Card({ todo, i, boardList, relatedTodos }: CardProps) {
   const { getToken, userId } = useAuth()
   const bgColors = ['bg-theme-cyan', 'bg-theme-yellow', 'bg-white']
   const bgColor = alternatingBgColor(i, bgColors)
-  const date = new Date(task.date ?? '')
+  const date = new Date(todo.date ?? '')
 
   return (
     <div
@@ -36,38 +36,38 @@ export default function Card({ task, i, boardList, relatedTasks }: CardProps) {
       <div className="flex justify-between items-center">
         <Avatar />
         <div className="flex gap-2 items-center">
-          {boardList && <UpsertTodo task={task} />}
+          {boardList && <UpsertTodo todo={todo} />}
           {!boardList && (
             <>
-              <span>{timeConvert(task.time)}</span>
-              <UpdateActiveStateButton
+              <span>{timeConvert(todo.time)}</span>
+              <UpdateActiveTodo
                 getToken={getToken}
-                task={task!}
+                todo={todo!}
                 userId={userId}
               />
-              {!task.active && <DeleteTodo id={task.id} />}
-              <UpsertTodo task={task} />
+              {!todo.active && <DeleteTodo id={todo.id} />}
+              <UpsertTodo todo={todo} />
             </>
           )}
         </div>
       </div>
       {boardList && (
         <>
-          {relatedTasks && (
+          {relatedTodos && (
             <p className="pt-5">
-              {relatedTasks} active task{relatedTasks > 1 && 's'}
+              {relatedTodos} active todo{relatedTodos > 1 && 's'}
             </p>
           )}
-          <h4 className="text-2xl">{task.board}</h4>
+          <h4 className="text-2xl">{todo.board}</h4>
         </>
       )}
       {!boardList && (
         <>
-          <p className="pt-5">{task.board}</p>
-          <h4 className="text-2xl">{task.title}</h4>
+          <p className="pt-5">{todo.board}</p>
+          <h4 className="text-2xl">{todo.title}</h4>
           <p>{date.toDateString()}</p>
           <p className="text-sm text-theme-blue-300">
-            {task.active ? 'Active' : 'Finished'}
+            {todo.active ? 'Active' : 'Finished'}
           </p>
         </>
       )}

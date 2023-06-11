@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 import supabaseClient from '@/lib/supabaseClient'
 import FilterList from './FilterList'
 import Overview from './Overview'
-import TasksList from './TasksList'
+import TodosList from './TodosList'
 import BoardList from './BoardList'
 import { Database } from '@/types/supabase'
 import Dialog from './Dialog'
@@ -16,9 +16,9 @@ export default function ListView() {
   const [todos, setTodos] = useState<
     Database['public']['Tables']['todos']['Row'][] | []
   >([])
-  const [activeListView, setActiveListView] = useState<'task' | 'board'>('task')
+  const [activeListView, setActiveListView] = useState<'todo' | 'board'>('todo')
   const [percentageActive, setPercentageActive] = useState<number | null>(null)
-  const active = activeListView === 'task' ? 0 : 1
+  const active = activeListView === 'todo' ? 0 : 1
 
   async function getTodos() {
     try {
@@ -51,7 +51,7 @@ export default function ListView() {
         active={active}
       />
 
-      {!active && <TasksList setTodos={setTodos} todos={todos} />}
+      {!active && <TodosList setTodos={setTodos} todos={todos} />}
       {active && <BoardList setTodos={setTodos} todos={todos} />}
     </Provider>
   )
