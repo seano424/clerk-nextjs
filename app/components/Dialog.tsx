@@ -2,45 +2,119 @@ import clsx from 'clsx'
 import { useAtom } from 'jotai'
 import modalAtom from '@/lib/modalAtom'
 import React, { useRef, useEffect, useState } from 'react'
+import supabaseClient from '@/lib/supabaseClient'
+import { useAuth } from '@clerk/nextjs'
 
 export default function Dialog() {
-  const modalRef = useRef<HTMLDialogElement>(null)
-  const [modal] = useAtom(modalAtom)
+  const dialog = useRef<HTMLDialogElement>(null)
+  const { userId, getToken } = useAuth()
+  const [modal, setModal] = useAtom(modalAtom)
   const [data, setData] = useState(modal.data)
 
   useEffect(() => {
-    modal.open && modalRef.current?.showModal()
-    modalRef.current?.close && setData(modal.data)
+    dialog.current?.removeAttribute('open')
+    modal.open && dialog.current?.showModal()
+    dialog.current?.close && setData(modal.data)
   }, [modal])
 
   const bgColors = ['bg-theme-cyan', 'bg-theme-yellow', 'bg-white']
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (userId) {
+      try {
+        const { title, board, active } = data
+        const { id } = modal.data
+        const supabaseAccessToken = await getToken({ template: 'supabase' })
+        const supabase = await supabaseClient(supabaseAccessToken)
+        const { error } = await supabase
+          .from('todos')
+          .update({ title, board, active, user_id: userId! })
+          .match({ id })
+        // setTodos(todos ?? [])
+        if (error) throw error
+        dialog.current?.close() && setModal({ ...modal, open: false })
+      } catch (error) {
+        alert(error)
+      }
+    } else {
+      alert('Please sign in to add a todo')
+    }
+  }
+
   return (
-    <dialog
-      ref={modalRef}
-      className={clsx(
-        'border-8 fixed inset-0 z-50 w-full container h-full',
-        bgColors[modal.bgColor]
-      )}
-    >
-      <p>Greetings, one and all!</p>
-      <form className="flex flex-col gap-2">
-        <input
-          type="text"
-          value={data?.title}
-          placeholder={data?.title}
-          onChange={(e) => setData({ ...data, title: e.target.value })}
-        />
-        <input
-          type="text"
-          value={data.board}
-          placeholder={data.board}
-          onChange={(e) => setData({ ...data, title: e.target.value })}
-        />
-      </form>
-      <form method="dialog">
-        <button>OK</button>
-      </form>
+    <dialog ref={dialog}>
+      <div
+        className={clsx(
+          'border-8 fixed inset-0 z-50 w-full container h-full flex flex-col justify-center items-center',
+          bgColors[modal.bgColor]
+        )}
+      >
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col container max-w-sm w-full items-start gap-2 bg-white p-10 rounded-3xl"
+        >
+          <label
+            className="text-theme-slate-900 text-lg font-medium"
+            htmlFor="title"
+          >
+            Title
+          </label>
+          <input
+            className="border-2 w-full text-slate-600 p-4 rounded-xl border-slate-200 focus-visible:ring-0 focus:outline-none bg-slate-100"
+            name="title"
+            type="text"
+            value={data.title}
+            placeholder="Title"
+            onChange={(e) => setData({ ...data, title: e.target.value })}
+          />
+          <label
+            className="text-theme-slate-900 text-lg font-medium"
+            htmlFor="board"
+          >
+            Board Name
+          </label>
+          <input
+            className="border-2 w-full text-slate-600 p-4 rounded-xl border-slate-200 focus-visible:ring-0 focus:outline-none bg-slate-100"
+            name="board"
+            type="text"
+            value={data.board}
+            placeholder="Board Name"
+            onChange={(e) => setData({ ...data, board: e.target.value })}
+          />
+          <div className="flex gap-2">
+            <label
+              className="text-theme-slate-900 text-lg font-medium"
+              htmlFor="active"
+            >
+              Active
+            </label>
+            <input
+              name="active"
+              type="checkbox"
+              checked={data.active}
+              onChange={(e) => setData({ ...data, active: e.target.checked })}
+            />
+          </div>
+          <div className="mt-10 flex justify-between w-full">
+            <button
+              className="text-red-500 font-medium text-lg"
+              onClick={(e) => {
+                e.preventDefault()
+                dialog.current?.close() && setModal({ ...modal, open: false })
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-10 py-3 rounded-full text-white bg-sky-400"
+            >
+              Send
+            </button>
+          </div>
+        </form>
+      </div>
     </dialog>
   )
 }
