@@ -4,6 +4,7 @@ import modalAtom from '@/lib/modalAtom'
 import React, { useRef, useEffect, useState } from 'react'
 import supabaseClient from '@/lib/supabaseClient'
 import { useAuth } from '@clerk/nextjs'
+import { initialData } from '@/lib/modalAtom'
 
 export default function Dialog() {
   const dialog = useRef<HTMLDialogElement>(null)
@@ -21,24 +22,19 @@ export default function Dialog() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (userId) {
-      try {
-        const { title, board, active } = data
-        const { id } = modal.data
-        const supabaseAccessToken = await getToken({ template: 'supabase' })
-        const supabase = await supabaseClient(supabaseAccessToken)
-        const { error } = await supabase
-          .from('todos')
-          .update({ title, board, active, user_id: userId! })
-          .match({ id })
-        // setTodos(todos ?? [])
-        if (error) throw error
-        dialog.current?.close() && setModal({ ...modal, open: false })
-      } catch (error) {
-        alert(error)
-      }
-    } else {
-      alert('Please sign in to add a todo')
+
+    try {
+      const { title, board, active, id } = data
+      const supabaseAccessToken = await getToken({ template: 'supabase' })
+      const supabase = await supabaseClient(supabaseAccessToken)
+      const { error } = await supabase
+        .from('todos')
+        .upsert({ title, board, active, user_id: userId!, id })
+      dialog.current?.close() &&
+        setModal({ data: initialData, open: false, bgColor: 0 })
+      if (error) throw error
+    } catch (error) {
+      alert(error)
     }
   }
 
@@ -96,7 +92,13 @@ export default function Dialog() {
               onChange={(e) => setData({ ...data, active: e.target.checked })}
             />
           </div>
-          <div className="mt-10 flex justify-between w-full">
+          <div className="mt-10 flex flex-row-reverse justify-between w-full">
+            <button
+              type="submit"
+              className="px-10 py-3 rounded-full text-white bg-sky-400"
+            >
+              Send
+            </button>
             <button
               className="text-red-500 font-medium text-lg"
               onClick={(e) => {
@@ -105,12 +107,6 @@ export default function Dialog() {
               }}
             >
               Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-10 py-3 rounded-full text-white bg-sky-400"
-            >
-              Send
             </button>
           </div>
         </form>

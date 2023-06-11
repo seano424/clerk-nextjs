@@ -10,8 +10,6 @@ import TasksList from './TasksList'
 import BoardList from './BoardList'
 import { Database } from '@/types/supabase'
 import Dialog from './Dialog'
-import modalAtom from '@/lib/modalAtom'
-import { useAtom } from 'jotai'
 
 export default function ListView() {
   const { getToken } = useAuth()

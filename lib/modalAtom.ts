@@ -1,14 +1,14 @@
 import { atom } from 'jotai'
 import { Database } from '@/types/supabase'
 
-const initialData = {
+export const initialData = {
   active: true,
-  board: 'my board',
+  board: '',
   created_at: '',
   date: '',
-  id: '',
-  time: 1212,
-  title: 'This is a test',
+  id: 0,
+  time: '',
+  title: '',
   user_id: '',
 }
 
