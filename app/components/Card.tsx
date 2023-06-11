@@ -1,15 +1,13 @@
 'use client'
 
 import clsx from 'clsx'
-import { toast } from 'react-toastify'
 import { useAuth } from '@clerk/nextjs'
 import { Database } from '@/types/supabase'
 import { Dispatch, SetStateAction } from 'react'
-import supabaseClient from '@/lib/supabaseClient'
-import DialogButton from './DialogButton'
-import { EllipsisHorizontalIcon, XCircleIcon } from '@heroicons/react/24/solid'
+import UpsertTodo from './UpsertTodo'
 
 import Avatar from './Avatar'
+import DeleteTodo from './DeleteTodo'
 import UpdateActiveStateButton from './UpdateActiveStateButton'
 import timeConvert from '@/utils/timeConvert'
 import alternatingBgColor from '@/utils/alternatingBgColor'
@@ -22,48 +20,11 @@ interface CardProps {
   setTodos?: Dispatch<SetStateAction<any>>
 }
 
-export default function Card({
-  task,
-  i,
-  boardList,
-  setTodos,
-  relatedTasks,
-}: CardProps) {
+export default function Card({ task, i, boardList, relatedTasks }: CardProps) {
   const { getToken, userId } = useAuth()
   const bgColors = ['bg-theme-cyan', 'bg-theme-yellow', 'bg-white']
   const bgColor = alternatingBgColor(i, bgColors)
   const date = new Date(task.date ?? '')
-
-  const deleteTodo = async (id: string | number) => {
-    const supabaseAccessToken = await getToken({
-      template: 'supabase',
-    })
-    const supabase = await supabaseClient(supabaseAccessToken)
-
-    try {
-      const { error } = await supabase
-        .from('todos')
-        .delete()
-        .eq('id', id)
-        .eq('user_id', userId)
-      if (error) throw error
-    } catch (e) {
-      console.log(e)
-    } finally {
-      setTodos &&
-        setTodos((prevState: any) =>
-          prevState.filter(
-            (item: {
-              title: string
-              created_at: string
-              id: number
-              user_id: string
-            }) => item.id !== id
-          )
-        )
-      toast('Deleted task! 🗑')
-    }
-  }
 
   return (
     <div
@@ -75,11 +36,7 @@ export default function Card({
       <div className="flex justify-between items-center">
         <Avatar />
         <div className="flex gap-2 items-center">
-          {boardList && (
-            <DialogButton data={task}>
-              <EllipsisHorizontalIcon className="h-10 w-10" />
-            </DialogButton>
-          )}
+          {boardList && <UpsertTodo task={task} />}
           {!boardList && (
             <>
               <span>{timeConvert(task.time)}</span>
@@ -88,15 +45,8 @@ export default function Card({
                 task={task!}
                 userId={userId}
               />
-              {!task.active && (
-                <button disabled={!task} onClick={() => deleteTodo(task.id)}>
-                  <span className="sr-only">Delete task</span>
-                  <XCircleIcon className="h-16 w-16 fill-red-500/80 hover:fill-red-500/100 transition-all duration-150 ease-linear" />
-                </button>
-              )}
-              <DialogButton data={task}>
-                <EllipsisHorizontalIcon className="h-10 w-10" />
-              </DialogButton>
+              {!task.active && <DeleteTodo id={task.id} />}
+              <UpsertTodo task={task} />
             </>
           )}
         </div>
