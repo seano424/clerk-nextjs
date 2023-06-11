@@ -1,10 +1,11 @@
 import clsx from 'clsx'
 import { useAtom } from 'jotai'
-import modalAtom from '@/lib/modalAtom'
-import React, { useRef, useEffect, useState } from 'react'
-import supabaseClient from '@/lib/supabaseClient'
+import { toast } from 'react-toastify'
 import { useAuth } from '@clerk/nextjs'
+import modalAtom from '@/lib/modalAtom'
+import supabaseClient from '@/lib/supabaseClient'
 import { initialData } from '@/lib/modalAtom'
+import React, { useRef, useEffect, useState } from 'react'
 
 export default function Dialog() {
   const dialog = useRef<HTMLDialogElement>(null)
@@ -32,6 +33,11 @@ export default function Dialog() {
         .upsert({ title, board, active, user_id: userId!, id })
       dialog.current?.close() &&
         setModal({ data: initialData, open: false, bgColor: 0 })
+      if (id === 0) {
+        toast.success('Task created successfully!')
+      } else {
+        toast.success('Task updated successfully!')
+      }
       if (error) throw error
     } catch (error) {
       alert(error)

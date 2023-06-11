@@ -10,6 +10,7 @@ import { ToastContainer } from 'react-toastify'
 import { useSetAtom } from 'jotai'
 import modalAtom from '@/lib/modalAtom'
 import { initialData } from '@/lib/modalAtom'
+import DialogButton from './DialogButton'
 
 export type TasksListProps = {
   todos: Database['public']['Tables']['todos']['Row'][]
@@ -76,12 +77,9 @@ export default function TasksList({ todos, setTodos }: TasksListProps) {
             <SkeletonCard active={showActiveTasks} key={i} />
           ))}
         <div className="flex justify-center mt-5">
-          <button
-            onClick={handleModal}
-            className="rounded-full text-5xl font-light h-20 w-20 bg-white"
-          >
+          <DialogButton className="rounded-full text-5xl font-light h-20 w-20 bg-white">
             +
-          </button>
+          </DialogButton>
         </div>
       </div>
     </>

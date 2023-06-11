@@ -2,12 +2,11 @@
 
 import clsx from 'clsx'
 import { toast } from 'react-toastify'
-import { useSetAtom } from 'jotai'
 import { useAuth } from '@clerk/nextjs'
 import { Database } from '@/types/supabase'
-import modalAtom from '@/lib/modalAtom'
 import { Dispatch, SetStateAction } from 'react'
 import supabaseClient from '@/lib/supabaseClient'
+import DialogButton from './DialogButton'
 import { EllipsisHorizontalIcon, XCircleIcon } from '@heroicons/react/24/solid'
 
 import Avatar from './Avatar'
@@ -36,12 +35,9 @@ export default function Card({
   const date = new Date(task.date ?? '')
 
   const deleteTodo = async (id: string | number) => {
-    const notify = (text: string) => toast(text)
-
     const supabaseAccessToken = await getToken({
       template: 'supabase',
     })
-
     const supabase = await supabaseClient(supabaseAccessToken)
 
     try {
@@ -65,13 +61,8 @@ export default function Card({
             }) => item.id !== id
           )
         )
-      notify('Deleted task! 🗑')
+      toast('Deleted task! 🗑')
     }
-  }
-
-  const setModal = useSetAtom(modalAtom)
-  const handleModal = () => {
-    setModal({ data: task, open: true, bgColor: i })
   }
 
   return (
@@ -85,9 +76,9 @@ export default function Card({
         <Avatar />
         <div className="flex gap-2 items-center">
           {boardList && (
-            <button onClick={handleModal}>
+            <DialogButton data={task}>
               <EllipsisHorizontalIcon className="h-10 w-10" />
-            </button>
+            </DialogButton>
           )}
           {!boardList && (
             <>
@@ -103,14 +94,14 @@ export default function Card({
                   <XCircleIcon className="h-16 w-16 fill-red-500/80 hover:fill-red-500/100 transition-all duration-150 ease-linear" />
                 </button>
               )}
-              <button onClick={handleModal}>
+              <DialogButton data={task}>
                 <EllipsisHorizontalIcon className="h-10 w-10" />
-              </button>
+              </DialogButton>
             </>
           )}
         </div>
       </div>
-      {boardList ? (
+      {boardList && (
         <>
           {relatedTasks && (
             <p className="pt-5">
@@ -119,7 +110,8 @@ export default function Card({
           )}
           <h4 className="text-2xl">{task.board}</h4>
         </>
-      ) : (
+      )}
+      {!boardList && (
         <>
           <p className="pt-5">{task.board}</p>
           <h4 className="text-2xl">{task.title}</h4>
