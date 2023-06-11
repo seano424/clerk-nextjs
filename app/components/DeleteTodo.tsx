@@ -31,7 +31,10 @@ export default function DeleteTodo({ id }: { id: string | number }) {
   return (
     <button onClick={deleteTodo}>
       <span className="sr-only">Delete todo</span>
-      <XCircleIcon className="h-16 w-16 fill-red-500/80 hover:fill-red-500/100 transition-all duration-150 ease-linear" />
+      <XCircleIcon
+        title="Delete"
+        className="h-16 w-16 fill-red-500/80 hover:fill-red-500/100 transition-all duration-150 ease-linear"
+      />
     </button>
   )
 }

@@ -8,10 +8,12 @@ import Avatar from './Avatar'
 
 interface CardProps {
   boardList?: boolean
-  active?: boolean
+  filter?: '' | 'active' | 'completed'
 }
 
-export default function SkeletonCard({ boardList, active }: CardProps) {
+export default function SkeletonCard({ boardList, filter }: CardProps) {
+  const active = filter === 'active'
+  
   return (
     <div
       className={clsx(

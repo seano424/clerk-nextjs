@@ -11,7 +11,11 @@ export default function UpsertTodo({
 }) {
   return (
     <DialogButton i={i} data={todo}>
-      <EllipsisHorizontalIcon className="h-10 w-10 hover:bg-white/60 rounded-full transition-all duration-200 ease-linear" />
+      <EllipsisHorizontalIcon
+        title="Update"
+        className="h-10 w-10 hover:bg-white/60 rounded-full transition-all duration-200 ease-linear"
+      />
+      <span className="sr-only">Update todo</span>
     </DialogButton>
   )
 }

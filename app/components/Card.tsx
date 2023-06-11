@@ -67,7 +67,7 @@ export default function Card({ todo, i, boardList, relatedTodos }: CardProps) {
           <h4 className="text-2xl">{todo.title}</h4>
           <p>{date.toDateString()}</p>
           <p className="text-sm text-theme-blue-300">
-            {todo.active ? 'Active' : 'Finished'}
+            {todo.active ? 'Active' : 'Completed'}
           </p>
         </>
       )}

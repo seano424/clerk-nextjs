@@ -54,9 +54,21 @@ export default function UpdateActiveStateButton({
         {todo.active ? 'Mark todo done' : 'Undo marking todo done'}
       </span>
       {todo.active ? (
-        <CheckCircleIcon className="h-16 w-16 fill-theme-blue-300 hover:fill-blue-500 transition-all duration-200 ease-linear" />
+        <>
+          <CheckCircleIcon
+            title="Mark Complete"
+            className="h-16 w-16 fill-theme-blue-300 hover:fill-blue-500 transition-all duration-200 ease-linear"
+          />
+          <span className="sr-only">Complete Todo</span>
+        </>
       ) : (
-        <ArrowUturnLeftIcon className="h-8 w-8 fill-theme-blue-500 group-hover:fill-theme-blue-300 transition-all duration-300 ease-linear" />
+        <>
+          <ArrowUturnLeftIcon
+            title="Undo"
+            className="h-8 w-8 fill-theme-blue-500 group-hover:fill-theme-blue-300 transition-all duration-300 ease-linear"
+          />
+          <span className="sr-only">Undo complete todo</span>
+        </>
       )}
     </button>
   )
