@@ -14,8 +14,8 @@ export default async function Hero() {
   const user = await currentUser()
 
   return (
-    <div className="flex flex-col gap-5 pt-5 pb-10">
-      <span className="text-theme-blue-300 text-8xl font-bold pr-96 tracking-tighter">
+    <div className="flex flex-col gap-5 pb-10">
+      <span className="text-theme-blue-300 text-8xl font-bold tracking-tighter">
         {welcome(date.getHours())}
       </span>
       {!user && (
