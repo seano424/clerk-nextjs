@@ -2,7 +2,7 @@
 
 import clsx from 'clsx'
 import { toast } from 'react-toastify'
-import { useSetAtom } from 'jotai'
+import { useSetAtom, useAtom } from 'jotai'
 import { useAuth } from '@clerk/nextjs'
 import { Database } from '@/types/supabase'
 import modalAtom from '@/lib/modalAtom'
@@ -31,10 +31,9 @@ export default function Card({
   relatedTasks,
 }: CardProps) {
   const { getToken, userId } = useAuth()
-  const setModal = useSetAtom(modalAtom)
-
   const bgColors = ['bg-theme-cyan', 'bg-theme-yellow', 'bg-white']
   const bgColor = alternatingBgColor(i, bgColors)
+  const date = new Date(task.date ?? '')
 
   const deleteTodo = async (id: string | number) => {
     const notify = (text: string) => toast(text)
@@ -70,7 +69,10 @@ export default function Card({
     }
   }
 
-  const date = new Date(task.date ?? '')
+  const setModal = useSetAtom(modalAtom)
+  const handleModal = () => {
+    setModal({ data: task, open: true, bgColor: i })
+  }
 
   return (
     <div
@@ -83,9 +85,7 @@ export default function Card({
         <Avatar />
         <div className="flex gap-2 items-center">
           {boardList && (
-            <button
-              onClick={() => setModal({ data: task, open: true, bgColor: i })}
-            >
+            <button onClick={handleModal}>
               <EllipsisHorizontalIcon className="h-10 w-10" />
             </button>
           )}
@@ -103,9 +103,7 @@ export default function Card({
                   <XCircleIcon className="h-16 w-16 fill-red-500/80 hover:fill-red-500/100 transition-all duration-150 ease-linear" />
                 </button>
               )}
-              <button
-                onClick={() => setModal({ data: task, open: true, bgColor: i })}
-              >
+              <button onClick={handleModal}>
                 <EllipsisHorizontalIcon className="h-10 w-10" />
               </button>
             </>

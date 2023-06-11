@@ -12,33 +12,30 @@ export interface Database {
       todos: {
         Row: {
           active: boolean
-          board: string | null
-          created_at: string | null
-          date: string | null
+          board: string
+          created_at: string
+          date: string
           id: number
-          test: string[]
           time: number
           title: string
           user_id: string
         }
         Insert: {
           active?: boolean
-          board?: string | null
-          created_at?: string | null
-          date?: string | null
+          board?: string
+          created_at?: string
+          date?: string
           id?: number
-          test?: string[]
           time?: number
           title: string
           user_id: string
         }
         Update: {
           active?: boolean
-          board?: string | null
-          created_at?: string | null
-          date?: string | null
+          board?: string
+          created_at?: string
+          date?: string
           id?: number
-          test?: string[]
           time?: number
           title?: string
           user_id?: string
