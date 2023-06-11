@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-const views = ['Todos', 'Boards']
+const views = ['Todo', 'Boards']
 
 interface FilterListProps {
   todos: any

@@ -36,7 +36,7 @@ export default function Card({ todo, i, boardList, relatedTodos }: CardProps) {
       <div className="flex justify-between items-center">
         <Avatar />
         <div className="flex gap-2 items-center">
-          {boardList && <UpsertTodo todo={todo} />}
+          {boardList && <UpsertTodo i={i} todo={todo} />}
           {!boardList && (
             <>
               <span>{timeConvert(todo.time)}</span>
@@ -45,8 +45,8 @@ export default function Card({ todo, i, boardList, relatedTodos }: CardProps) {
                 todo={todo!}
                 userId={userId}
               />
-              {!todo.active && <DeleteTodo id={todo.id} />}
-              <UpsertTodo todo={todo} />
+              <DeleteTodo id={todo.id} />
+              <UpsertTodo i={i} todo={todo} />
             </>
           )}
         </div>
