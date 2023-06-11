@@ -2,7 +2,7 @@
 
 import clsx from 'clsx'
 import { toast } from 'react-toastify'
-import { useSetAtom, useAtom } from 'jotai'
+import { useSetAtom } from 'jotai'
 import { useAuth } from '@clerk/nextjs'
 import { Database } from '@/types/supabase'
 import modalAtom from '@/lib/modalAtom'

@@ -22,8 +22,6 @@ export default function ListView() {
   const [percentageActive, setPercentageActive] = useState(100)
   const active = activeListView === 'task' ? 0 : 1
 
-  const [modal, setModal] = useAtom(modalAtom)
-
   async function getTodos() {
     try {
       const supabaseAccessToken = await getToken({ template: 'supabase' })
@@ -48,7 +46,6 @@ export default function ListView() {
   return (
     <Provider>
       <Dialog />
-      <p className="text-white text-xl">{modal.data.title}</p>
       <Overview percentageActive={percentageActive} />
       <FilterList
         todos={todos}

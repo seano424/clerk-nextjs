@@ -2,12 +2,12 @@
 
 import clsx from 'clsx'
 import Card from './Card'
-import { atom } from 'jotai'
 import { useAuth } from '@clerk/nextjs'
 import { useState, Dispatch } from 'react'
 import { Database } from '@/types/supabase'
 import SkeletonCard from './SkeletonCard'
 import { ToastContainer } from 'react-toastify'
+import TodoAddForm from './TodoAddForm'
 
 export type TasksListProps = {
   todos: Database['public']['Tables']['todos']['Row'][]
@@ -68,6 +68,7 @@ export default function TasksList({ todos, setTodos }: TasksListProps) {
           fakeTodos.map((_, i) => (
             <SkeletonCard active={showActiveTasks} key={i} />
           ))}
+        <TodoAddForm />
       </div>
     </>
   )

@@ -8,7 +8,7 @@ const initialData = {
   date: '',
   id: '',
   time: 1212,
-  title: '',
+  title: 'This is a test',
   user_id: '',
 }
 

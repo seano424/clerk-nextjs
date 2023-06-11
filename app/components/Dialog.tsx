@@ -3,18 +3,6 @@ import { useAtom } from 'jotai'
 import modalAtom from '@/lib/modalAtom'
 import React, { useRef, useEffect, useState } from 'react'
 
-const fakeData = {
-  active: true,
-  board: '',
-  created_at: '',
-  date: '',
-  id: '',
-  test: '',
-  time: 1212,
-  title: '',
-  user_id: '',
-}
-
 export default function Dialog() {
   const modalRef = useRef<HTMLDialogElement>(null)
   const [modal] = useAtom(modalAtom)
@@ -45,8 +33,8 @@ export default function Dialog() {
         />
         <input
           type="text"
-          value={data?.title}
-          placeholder={data?.title}
+          value={data.board}
+          placeholder={data.board}
           onChange={(e) => setData({ ...data, title: e.target.value })}
         />
       </form>

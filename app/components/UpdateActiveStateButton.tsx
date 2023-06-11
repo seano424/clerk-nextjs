@@ -1,11 +1,11 @@
 import clsx from 'clsx'
-import { Todo } from './TasksList'
+import { Database } from '@/types/supabase'
 import { toast } from 'react-toastify'
 import supabaseClient from '@/lib/supabaseClient'
 import { CheckCircleIcon, ArrowUturnLeftIcon } from '@heroicons/react/24/solid'
 
 interface UpdateActiveStateButtonProps {
-  task: Todo
+  task: Database['public']['Tables']['todos']['Row']
   userId: any
   getToken: any
 }
