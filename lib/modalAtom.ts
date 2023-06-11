@@ -6,7 +6,7 @@ export const initialData = {
   board: '',
   created_at: '',
   date: '',
-  id: 0,
+  id: null,
   time: '',
   title: '',
   user_id: '',

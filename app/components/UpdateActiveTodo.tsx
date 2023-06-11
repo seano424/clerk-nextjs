@@ -1,8 +1,11 @@
-import clsx from 'clsx'
 import { Database } from '@/types/supabase'
 import { toast } from 'react-toastify'
 import supabaseClient from '@/lib/supabaseClient'
-import { CheckCircleIcon, ArrowUturnLeftIcon } from '@heroicons/react/24/solid'
+import {
+  CheckCircleIcon,
+  ArrowUturnLeftIcon,
+  ArrowLeftCircleIcon,
+} from '@heroicons/react/24/solid'
 
 interface UpdateActiveTodo {
   todo: Database['public']['Tables']['todos']['Row']
@@ -42,14 +45,7 @@ export default function UpdateActiveStateButton({
   }
 
   return (
-    <button
-      disabled={!todo}
-      onClick={() => updateActive(todo)}
-      className={clsx(
-        !todo.active &&
-          'group border-4 rounded-full p-[5px] border-theme-blue-500 hover:border-theme-blue-300 transition-all duration-300 ease-linear'
-      )}
-    >
+    <button disabled={!todo} onClick={() => updateActive(todo)}>
       <span className="sr-only">
         {todo.active ? 'Mark todo done' : 'Undo marking todo done'}
       </span>
@@ -57,15 +53,15 @@ export default function UpdateActiveStateButton({
         <>
           <CheckCircleIcon
             title="Mark Complete"
-            className="h-16 w-16 fill-theme-blue-300 hover:fill-blue-500 transition-all duration-200 ease-linear"
+            className="h-16 w-16 fill-theme-blue-500/10 group-hover:fill-theme-blue-300 transition-all duration-300 ease-linear"
           />
           <span className="sr-only">Complete Todo</span>
         </>
       ) : (
         <>
-          <ArrowUturnLeftIcon
+          <CheckCircleIcon
             title="Undo"
-            className="h-8 w-8 fill-theme-blue-500 group-hover:fill-theme-blue-300 transition-all duration-300 ease-linear"
+            className="h-16 w-16 fill-theme-blue-300 hover:fill-blue-500 transition-all duration-200 ease-linear"
           />
           <span className="sr-only">Undo complete todo</span>
         </>

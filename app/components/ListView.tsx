@@ -24,7 +24,10 @@ export default function ListView() {
     try {
       const supabaseAccessToken = await getToken({ template: 'supabase' })
       const supabase = await supabaseClient(supabaseAccessToken)
-      const { data: todos } = await supabase.from('todos').select('*')
+      const { data: todos } = await supabase
+        .from('todos')
+        .select('*')
+        .order('created_at', { ascending: false })
       setTodos(todos ?? [])
     } catch (error) {
       alert(error)

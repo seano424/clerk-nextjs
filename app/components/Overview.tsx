@@ -48,14 +48,16 @@ export default function Overview({ percentageActive }: OverviewProps) {
     <div className="flex-col flex">
       <div className="flex justify-between text-xl text-white">
         <span>Today&apos;s {days[date.getDay()]}</span>
-        {percentageActive && <span>{percentageActive.toFixed(0)}% done</span>}
+        {percentageActive !== null && (
+          <span>{percentageActive.toFixed(0)}% completed</span>
+        )}
       </div>
       <div className="flex justify-between text-lg text-theme-slate-500">
         <span>
           {months[date.getMonth()]} {date.getDate()}
           {nth(date.getDate())}, {date.getFullYear()}
         </span>
-        {percentageActive ? (
+        {percentageActive !== null ? (
           <span>Completed Todos</span>
         ) : (
           <span>Awaiting Todos...</span>

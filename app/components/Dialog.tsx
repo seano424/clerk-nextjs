@@ -34,7 +34,7 @@ export default function Dialog() {
       const supabase = await supabaseClient(supabaseAccessToken)
       const { error } = await supabase
         .from('todos')
-        .upsert({ title, board, active, user_id: userId!, id })
+        .upsert({ title, board, active, user_id: userId!, id: id ?? undefined })
       dialog.current?.close() &&
         setModal({ data: initialData, open: false, bgColor: 2 })
       if (id === 0) {

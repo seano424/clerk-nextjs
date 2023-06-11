@@ -4,7 +4,7 @@ import { currentUser } from '@clerk/nextjs'
 const welcomes = ['Good Morning', 'Good Afternoon', 'Good Evening']
 
 const welcome = (h: number) => {
-  if (h < 12) return welcomes[0]
+  if (h < 11) return welcomes[0]
   if (h < 18) return welcomes[1]
   return welcomes[2]
 }
