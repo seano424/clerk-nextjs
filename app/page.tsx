@@ -5,12 +5,14 @@ import Header from './components/Header'
 export default async function Home() {
   return (
     <main className="bg-theme-blue-900">
-      <div className="container max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         {/* @ts-expect-error Server Component */}
         <Header />
-        {/* @ts-expect-error Server Component */}
-        <Hero />
-        <ListView />
+        <div className="container">
+          {/* @ts-expect-error Server Component */}
+          <Hero />
+          <ListView />
+        </div>
       </div>
     </main>
   )
