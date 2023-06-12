@@ -2,14 +2,14 @@ import clsx from 'clsx'
 import { useAtom } from 'jotai'
 import { toast } from 'react-toastify'
 import { useAuth } from '@clerk/nextjs'
-import modalAtom from '@/lib/modalAtom'
+import dialogAtom from '@/lib/dialogAtom'
 import supabaseClient from '@/lib/supabaseClient'
 import React, { useRef, useEffect, useState } from 'react'
 
 export default function UpdateTodoDialog() {
   const updateDialog = useRef<HTMLDialogElement>(null)
   const { userId, getToken } = useAuth()
-  const [modal, setModal] = useAtom(modalAtom)
+  const [modal, setModal] = useAtom(dialogAtom)
   const [data, setData] = useState(modal.data)
 
   useEffect(() => {

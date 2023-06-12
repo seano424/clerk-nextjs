@@ -3,7 +3,6 @@
 import { useAuth } from '@clerk/nextjs'
 
 import SkeletonCard from './SkeletonCard'
-import DialogButton from './DialogButton'
 import BoardCard from './BoardCard'
 import { Database } from '@/types/supabase'
 

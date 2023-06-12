@@ -12,7 +12,7 @@ export const initialData = {
   user_id: '',
 }
 
-const modalAtom = atom<{
+const dialogAtom = atom<{
   open: boolean
   data: typeof initialData | Database['public']['Tables']['todos']['Row']
   bgColor: number
@@ -24,4 +24,4 @@ const modalAtom = atom<{
   type: 'Add',
 })
 
-export default modalAtom
+export default dialogAtom

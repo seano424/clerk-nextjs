@@ -7,7 +7,6 @@ import { ToastContainer } from 'react-toastify'
 
 import TodoCard from './TodoCard'
 import SkeletonCard from './SkeletonCard'
-import DialogButton from './DialogButton'
 import { Database } from '@/types/supabase'
 
 export type TodosListProps = {

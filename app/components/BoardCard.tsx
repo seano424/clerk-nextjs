@@ -5,7 +5,6 @@ import { Dispatch, SetStateAction } from 'react'
 import alternatingBgColor from '@/utils/alternatingBgColor'
 
 import Avatar from './Avatar'
-import UpsertTodo from './UpsertTodo'
 import { Database } from '@/types/supabase'
 
 interface BoardCardProps {
@@ -37,9 +36,7 @@ export default function BoardCard({ todo, i, relatedTodos }: BoardCardProps) {
     >
       <div className="flex justify-between items-center">
         <Avatar />
-        <div className="flex gap-2 items-center">
-          <UpsertTodo i={i} todo={todo} />
-        </div>
+        <div className="flex gap-2 items-center"></div>
       </div>
 
       <div className="flex flex-col items-start mt-2 gap-2 p-2">

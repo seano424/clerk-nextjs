@@ -9,7 +9,7 @@ import DeleteTodo from './DeleteTodo'
 import UpdateActiveTodo from './UpdateActiveTodo'
 import timeConvert from '@/utils/timeConvert'
 import alternatingBgColor from '@/utils/alternatingBgColor'
-import modalAtom from '@/lib/modalAtom'
+import dialogAtom from '@/lib/dialogAtom'
 import { useSetAtom } from 'jotai'
 
 interface TodoCardProps {
@@ -23,7 +23,7 @@ export default function TodoCard({ todo, i }: TodoCardProps) {
   const bgColors = ['bg-theme-cyan', 'bg-theme-yellow', 'bg-white']
   const bgColor = alternatingBgColor(i, bgColors)
   const date = new Date(todo.date ?? '')
-  const setModal = useSetAtom(modalAtom)
+  const setModal = useSetAtom(dialogAtom)
 
   const handleModal = () => {
     setModal({ data: todo, open: true, bgColor: i, type: 'Edit' })

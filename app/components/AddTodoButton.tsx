@@ -1,8 +1,8 @@
-import modalAtom from '@/lib/modalAtom'
+import dialogAtom from '@/lib/dialogAtom'
 import { useSetAtom } from 'jotai'
 
 export default function AddTodoButton() {
-  const setModal = useSetAtom(modalAtom)
+  const setModal = useSetAtom(dialogAtom)
 
   const handleModal = () => {
     setModal((prevState) => ({ ...prevState, open: true, type: 'Add' }))
