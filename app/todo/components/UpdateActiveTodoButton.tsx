@@ -10,7 +10,7 @@ export default function UpdateActiveTodoButton({
 }: {
   todo: Database['public']['Tables']['todos']['Row']
 }) {
-  const [isComplete, setIsComplete] = useState(todo.active)
+  const [isActive, setIsActive] = useState(todo.active)
   const { getToken, userId } = useAuth()
 
   const updateActive = async () => {
@@ -35,12 +35,10 @@ export default function UpdateActiveTodoButton({
   }
 
   useEffect(() => {
-    setIsComplete(todo.active)
+    setIsActive(todo.active)
   }, [todo.active])
 
-
-  console.log(todo.active);
-  
+  console.log(todo.active)
 
   return (
     <button
@@ -50,7 +48,7 @@ export default function UpdateActiveTodoButton({
       <div
         className={clsx(
           'h-28 relative z-10 mx-5 bg-white rounded-full flex items-center justify-center transition-all duration-300 ease-linear',
-          isComplete ? 'w-[calc(100%-2.5rem)]' : 'w-28'
+          isActive ? 'w-28' : 'w-[calc(100%-2.5rem)]'
         )}
       >
         <div className="absolute inset-0 flex justify-center items-center">
@@ -60,7 +58,7 @@ export default function UpdateActiveTodoButton({
               'relative z-20',
               'transition-opacity ease-linear',
               'delay-300 duration-300',
-              isComplete ? 'opacity-0' : 'opacity-100'
+              isActive ? 'opacity-100' : 'opacity-0'
             )}
           />
         </div>
@@ -68,7 +66,7 @@ export default function UpdateActiveTodoButton({
           className={clsx(
             'text-black',
             'transition-opacity ease-linear',
-            isComplete ? 'opacity-100 delay-700 duration-700' : 'opacity-0'
+            isActive ? 'opacity-0' : 'opacity-100 delay-700 duration-700'
           )}
         >
           🎉 Completed! 🎊

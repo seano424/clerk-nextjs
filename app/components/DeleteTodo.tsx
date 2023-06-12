@@ -13,7 +13,7 @@ export default function DeleteTodo({ id }: { id: string | number }) {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.stopPropagation()
-
+    e.preventDefault()
     const supabaseAccessToken = await getToken({
       template: 'supabase',
     })

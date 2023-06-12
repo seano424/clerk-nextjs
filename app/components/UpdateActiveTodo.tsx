@@ -15,12 +15,14 @@ export default function UpdateActiveStateButton({
   userId,
   getToken,
 }: UpdateActiveTodo) {
-  
   const updateActive = async (
     todo: any,
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.stopPropagation()
+    e.preventDefault()
+    e.nativeEvent.stopImmediatePropagation()
+
     const supabaseAccessToken = await getToken({
       template: 'supabase',
     })
@@ -35,8 +37,8 @@ export default function UpdateActiveStateButton({
         .eq('user_id', userId)
         .select()
       if (error) throw error
-    } catch (e) {
-      alert(e)
+    } catch (e: any) {
+      alert(e.message)
     } finally {
       todo?.active
         ? toast('Completed todo! Good job 🎊')
