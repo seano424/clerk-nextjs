@@ -62,12 +62,10 @@ export default function UpdateActiveStateButton({
           <span className="sr-only">Complete Todo</span>
         </div>
       ) : (
-        <>
-          <div className="border rounded-full h-[52px] w-[52px] p-3 bg-theme-blue-300 hover:bg-theme-blue-300/80 focus:bg-theme-blue-300/80 transition-all duration-300 ease-linear border-none">
-            <ArrowUturnDownIcon title="Undo" className="h-7 w-7 fill-white" />
-            <span className="sr-only">Undo complete todo</span>
-          </div>
-        </>
+        <div className="border rounded-full h-[52px] w-[52px] p-3 bg-theme-blue-300 hover:bg-theme-blue-300/80 focus:bg-theme-blue-300/80 transition-all duration-300 ease-linear border-none">
+          <ArrowUturnDownIcon title="Undo" className="h-7 w-7 fill-white" />
+          <span className="sr-only">Undo complete todo</span>
+        </div>
       )}
     </button>
   )

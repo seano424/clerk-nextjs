@@ -65,6 +65,9 @@ export default function Dialog() {
             onSubmit={handleSubmit}
             className="bg-white flex flex-col container max-w-sm w-[400px] items-start gap-2 p-10 rounded-3xl"
           >
+            <h2 className="text-theme-slate-900 text-xl font-medium pb-4">
+              Add New Todos
+            </h2>
             <label
               className="text-theme-slate-900 text-lg font-medium"
               htmlFor="title"
