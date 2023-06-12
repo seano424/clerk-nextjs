@@ -12,12 +12,12 @@ import { Database } from '@/types/supabase'
 import Dialog from './Dialog'
 
 export default function ListView() {
-  const { getToken } = useAuth()
+  const { getToken, isSignedIn } = useAuth()
   const [todos, setTodos] = useState<
-    Database['public']['Tables']['todos']['Row'][] | []
+    Database['public']['Tables']['todos']['Row'][] | null
   >([])
   const [activeListView, setActiveListView] = useState<'todo' | 'board'>('todo')
-  const [percentageActive, setPercentageActive] = useState<number | null>(null)
+  const [percentageActive, setPercentageActive] = useState<number>(100)
   const active = activeListView === 'todo' ? 0 : 1
 
   async function getTodos() {
@@ -29,7 +29,7 @@ export default function ListView() {
         .select('*')
         .order('active', { ascending: false })
         .order('created_at', { ascending: false })
-      setTodos(todos ?? [])
+      setTodos(todos)
     } catch (error) {
       alert(error)
     } finally {
@@ -37,11 +37,13 @@ export default function ListView() {
   }
 
   useEffect(() => {
-    getTodos()
-    if (todos.length > 1) {
-      const activeTodos =
-        todos.filter((todo) => todo.active === false).length / todos.length
-      setPercentageActive(activeTodos * 100)
+    if (isSignedIn) {
+      getTodos()
+      if (todos) {
+        const activeTodos =
+          todos.filter((todo) => todo.active === false).length / todos.length
+        setPercentageActive(activeTodos * 100)
+      }
     }
   }, [todos])
 

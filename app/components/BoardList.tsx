@@ -12,20 +12,20 @@ const fakeTodos = Array(2).fill(5)
 export default function BoardList({
   todos,
 }: {
-  todos: Database['public']['Tables']['todos']['Row'][]
+  todos: Database['public']['Tables']['todos']['Row'][] | null
 }) {
   const { isSignedIn } = useAuth()
   const key = 'board'
   const arrayUniqueByKey = [
-    ...new Map(todos.map((item) => [item[key], item])).values(),
+    ...new Map(todos?.map((item) => [item[key], item])).values(),
   ]
-  const boardsMap = todos.map((todo: any) => ({
+  const boardsMap = todos?.map((todo: any) => ({
     board: todo.board,
     active: todo.active,
   }))
 
   const consolidateBoards = (board: string) => {
-    return boardsMap.filter((x) => x.board === board)
+    return boardsMap?.filter((x) => x.board === board)
   }
 
   return (
@@ -33,7 +33,7 @@ export default function BoardList({
       <div className="pt-5 min-h-screen">
         {arrayUniqueByKey.map((todo, i) => (
           <BoardCard
-            relatedTodos={consolidateBoards(todo.board)}
+            relatedTodos={todos ? consolidateBoards(todo.board) : undefined}
             key={i}
             i={i}
             todo={todo}
@@ -41,10 +41,9 @@ export default function BoardList({
         ))}
 
         {isSignedIn &&
+          todos &&
           todos.length === 0 &&
-          fakeTodos.map((_, i) => (
-            <SkeletonCard filter="active" boardList key={i} />
-          ))}
+          fakeTodos.map((_, i) => <SkeletonCard boardList key={i} />)}
       </div>
 
       {isSignedIn && (

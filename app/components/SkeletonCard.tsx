@@ -1,21 +1,17 @@
 'use client'
 
-import clsx from 'clsx'
-import { CheckCircleIcon, ArrowUturnLeftIcon } from '@heroicons/react/24/solid'
+import { CheckCircleIcon } from '@heroicons/react/24/solid'
 import { EllipsisHorizontalIcon, XCircleIcon } from '@heroicons/react/24/solid'
 
 import Avatar from './Avatar'
 
 interface CardProps {
   boardList?: boolean
-  filter?: '' | 'active' | 'completed'
 }
 
-export default function SkeletonCard({ boardList, filter }: CardProps) {
-  const active = filter === 'active'
-
+export default function SkeletonCard({ boardList }: CardProps) {
   return (
-    <div className="text-theme-slate-900 rounded-[40px] capitalize p-5 bg-slate-200 animate-pulse-super-slow">
+    <div className="text-theme-slate-900 rounded-[40px] capitalize p-5 bg-slate-400 animate-pulse-super-slow">
       <div className="flex justify-between items-center">
         <Avatar />
         <div className="flex gap-2 items-center">

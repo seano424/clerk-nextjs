@@ -62,8 +62,11 @@ export default function FilterList({
             <span>Loading</span>
           )}
           {view}
-          {todos && i === 0 && todos.length > 1 && 's'}
-          {!todos && i === 0 && 's'}
+
+          {view === 'Todo' &&
+            todos &&
+            (todos.length === 0 || todos.length > 1) &&
+            's'}
         </button>
       ))}
     </div>

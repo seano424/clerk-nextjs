@@ -11,10 +11,10 @@ import DialogButton from './DialogButton'
 import { Database } from '@/types/supabase'
 
 export type TodosListProps = {
-  todos: Database['public']['Tables']['todos']['Row'][]
+  todos: Database['public']['Tables']['todos']['Row'][] | null
 }
 
-const fakeTodos = Array(2).fill(5)
+const fakeTodos = Array(5).fill(5)
 
 export default function TodosList({ todos }: TodosListProps) {
   const [filterTodos, setFilterTodos] = useState<'' | 'completed' | 'active'>(
@@ -36,7 +36,7 @@ export default function TodosList({ todos }: TodosListProps) {
         position="top-center"
       />
       <div className="pt-5 min-h-screen">
-        {todos.length > 0 && (
+        {todos && (
           <div className="flex items-center justify-end pb-8 pt-5 px-10">
             <button
               onClick={() => setFilterTodos('')}
@@ -75,27 +75,23 @@ export default function TodosList({ todos }: TodosListProps) {
         )}
 
         {showAllTodos &&
+          todos &&
           todos.map((todo, i) => <TodoCard todo={todo} i={i} key={todo.id} />)}
 
         {showActiveTodos &&
+          todos &&
           todos
             .filter((t) => t.active === true)
             .map((todo, i) => <TodoCard todo={todo} i={i} key={todo.id} />)}
 
         {showCompletedTodos &&
+          todos &&
           todos
             .filter((t) => t.active === false)
             .map((todo, i) => <TodoCard todo={todo} i={i} key={todo.id} />)}
 
-        {isSignedIn &&
-          todos.length === 0 &&
-          fakeTodos.map((_, i) => (
-            <SkeletonCard filter={filterTodos} key={i} />
-          ))}
-
-        {/* {fakeTodos.map((_, i) => (
-          <SkeletonCard filter={filterTodos} key={i} />
-        ))} */}
+        {!isSignedIn ||
+          (!todos && fakeTodos.map((_, i) => <SkeletonCard key={i} />))}
 
         {isSignedIn && (
           <div className="fixed bottom-5 left-0 right-0">
