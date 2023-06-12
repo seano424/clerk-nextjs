@@ -5,7 +5,6 @@ import Link from 'next/link'
 import {
   EllipsisHorizontalIcon,
   ArrowLeftIcon,
-  CheckIcon,
 } from '@heroicons/react/24/solid'
 import { useAuth } from '@clerk/nextjs'
 import supabaseClient from '@/lib/supabaseClient'
@@ -19,7 +18,7 @@ import UpdateActiveTodoButton from '../components/UpdateActiveTodoButton'
 export default function Page({ params: { id } }: { params: { id: string } }) {
   const { getToken } = useAuth()
   const searchParams = useSearchParams()
-  const [isComplete, setIsComplete] = useState(false)
+
   const [todo, setTodo] = useState<
     Database['public']['Tables']['todos']['Row'] | null
   >(null)
@@ -33,7 +32,7 @@ export default function Page({ params: { id } }: { params: { id: string } }) {
       .select('*')
       .eq('id', id)
       .single()
-    setIsComplete(todo?.active ?? false)
+
     setTodo(todo)
     if (error) {
       console.log(error.message)

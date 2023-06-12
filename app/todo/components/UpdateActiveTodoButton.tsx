@@ -1,7 +1,9 @@
 import clsx from 'clsx'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { CheckIcon } from '@heroicons/react/24/solid'
 import { Database } from '@/types/supabase'
+import { useAuth } from '@clerk/nextjs'
+import supabaseClient from '@/lib/supabaseClient'
 
 export default function UpdateActiveTodoButton({
   todo,
@@ -9,10 +11,40 @@ export default function UpdateActiveTodoButton({
   todo: Database['public']['Tables']['todos']['Row']
 }) {
   const [isComplete, setIsComplete] = useState(todo.active)
+  const { getToken, userId } = useAuth()
+
+  const updateActive = async () => {
+    const supabaseAccessToken = await getToken({
+      template: 'supabase',
+    })
+
+    const supabase = await supabaseClient(supabaseAccessToken)
+
+    try {
+      const { error } = await supabase
+        .from('todos')
+        .update({ active: !todo.active })
+        .eq('id', todo.id)
+        .eq('user_id', userId)
+        .select()
+        .single()
+      if (error) throw error
+    } catch (e) {
+      alert(e)
+    }
+  }
+
+  useEffect(() => {
+    setIsComplete(todo.active)
+  }, [todo.active])
+
+
+  console.log(todo.active);
+  
 
   return (
     <button
-      onClick={() => setIsComplete((prevState) => !prevState)}
+      onClick={updateActive}
       className="bg-black text-white h-32 rounded-full w-full text-2xl relative"
     >
       <div
