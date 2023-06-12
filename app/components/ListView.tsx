@@ -28,6 +28,7 @@ export default function ListView() {
         .from('todos')
         .select('*')
         .order('active', { ascending: false })
+        .order('created_at', { ascending: false })
       setTodos(todos ?? [])
     } catch (error) {
       alert(error)

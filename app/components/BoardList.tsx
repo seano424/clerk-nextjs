@@ -1,9 +1,11 @@
 'use client'
-import Card from './Card'
-import { Database } from '@/types/supabase'
-import SkeletonCard from './SkeletonCard'
+
 import { useAuth } from '@clerk/nextjs'
+
+import SkeletonCard from './SkeletonCard'
 import DialogButton from './DialogButton'
+import BoardCard from './BoardCard'
+import { Database } from '@/types/supabase'
 
 const fakeTodos = Array(2).fill(5)
 
@@ -17,20 +19,24 @@ export default function BoardList({
   const arrayUniqueByKey = [
     ...new Map(todos.map((item) => [item[key], item])).values(),
   ]
-  const boardsMap = todos.map((todo: any) => todo.board)
-  const count = (word: string) => {
-    return boardsMap.filter((x) => x === word).length
+  const boardsMap = todos.map((todo: any) => ({
+    board: todo.board,
+    active: todo.active,
+  }))
+
+  const consolidateBoards = (board: string) => {
+    return boardsMap.filter((x) => x.board === board)
   }
+
   return (
     <>
       <div className="pt-5 min-h-screen">
         {arrayUniqueByKey.map((todo, i) => (
-          <Card
-            relatedTodos={count(todo.board ?? '')}
-            boardList
-            todo={todo}
+          <BoardCard
+            relatedTodos={consolidateBoards(todo.board)}
+            key={i}
             i={i}
-            key={todo.id}
+            todo={todo}
           />
         ))}
 

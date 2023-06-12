@@ -1,13 +1,14 @@
 'use client'
 
 import clsx from 'clsx'
-import Card from './Card'
 import { useAuth } from '@clerk/nextjs'
 import { useState, Dispatch } from 'react'
-import { Database } from '@/types/supabase'
-import SkeletonCard from './SkeletonCard'
 import { ToastContainer } from 'react-toastify'
+
+import TodoCard from './TodoCard'
+import SkeletonCard from './SkeletonCard'
 import DialogButton from './DialogButton'
+import { Database } from '@/types/supabase'
 
 export type TodosListProps = {
   todos: Database['public']['Tables']['todos']['Row'][]
@@ -76,21 +77,21 @@ export default function TodosList({ todos, setTodos }: TodosListProps) {
 
         {showAllTodos &&
           todos.map((todo, i) => (
-            <Card setTodos={setTodos} todo={todo} i={i} key={todo.id} />
+            <TodoCard setTodos={setTodos} todo={todo} i={i} key={todo.id} />
           ))}
 
         {showActiveTodos &&
           todos
             .filter((t) => t.active === true)
             .map((todo, i) => (
-              <Card setTodos={setTodos} todo={todo} i={i} key={todo.id} />
+              <TodoCard setTodos={setTodos} todo={todo} i={i} key={todo.id} />
             ))}
 
         {showCompletedTodos &&
           todos
             .filter((t) => t.active === false)
             .map((todo, i) => (
-              <Card setTodos={setTodos} todo={todo} i={i} key={todo.id} />
+              <TodoCard setTodos={setTodos} todo={todo} i={i} key={todo.id} />
             ))}
 
         {isSignedIn &&
