@@ -3,7 +3,7 @@
 import clsx from 'clsx'
 import { useAuth } from '@clerk/nextjs'
 import { Database } from '@/types/supabase'
-
+import Link from 'next/link'
 import Avatar from './Avatar'
 import DeleteTodo from './DeleteTodo'
 import UpdateActiveTodo from './UpdateActiveTodo'
@@ -30,31 +30,41 @@ export default function TodoCard({ todo, i }: TodoCardProps) {
   }
 
   return (
-    <button
-      onClick={handleModal}
-      className={clsx(
-        bgColor,
-        'w-full',
-        'text-theme-slate-900 rounded-[40px] capitalize p-5'
-      )}
+    <Link
+      href={{
+        pathname: `/todo/${todo.id}`,
+        query: { colorIndex: i },
+      }}
     >
-      <div className="flex justify-between items-center">
-        <Avatar />
-        <div className="flex gap-2 items-center">
-          <span>{timeConvert(todo.time)}</span>
-          <UpdateActiveTodo getToken={getToken} todo={todo!} userId={userId} />
-          {!todo.active && <DeleteTodo id={todo.id} />}
+      <div
+        className={clsx(
+          bgColor,
+          'w-full',
+          'text-theme-slate-900 rounded-[40px] capitalize p-5'
+        )}
+      >
+        <div className="flex justify-between items-center">
+          <Avatar />
+          <div className="flex gap-2 items-center">
+            <span>{timeConvert(todo.time)}</span>
+            <UpdateActiveTodo
+              getToken={getToken}
+              todo={todo!}
+              userId={userId}
+            />
+            {!todo.active && <DeleteTodo id={todo.id} />}
+          </div>
+        </div>
+
+        <div className="flex flex-col items-start">
+          <p className="pt-5">{todo.board}</p>
+          <h4 className="text-2xl">{todo.title}</h4>
+          <p>{date.toDateString()}</p>
+          <p className="text-sm text-theme-blue-300">
+            {todo.active ? 'Active' : 'Completed'}
+          </p>
         </div>
       </div>
-
-      <div className="flex flex-col items-start">
-        <p className="pt-5">{todo.board}</p>
-        <h4 className="text-2xl">{todo.title}</h4>
-        <p>{date.toDateString()}</p>
-        <p className="text-sm text-theme-blue-300">
-          {todo.active ? 'Active' : 'Completed'}
-        </p>
-      </div>
-    </button>
+    </Link>
   )
 }

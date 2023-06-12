@@ -1,7 +1,6 @@
 // app/layout.tsx
 import './globals.css'
 
-import Header from './components/Header'
 import { Work_Sans } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 
@@ -21,11 +20,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`flex flex-col min-h-screen bg-theme-blue-900 max-w-4xl mx-auto ${workSans.className}`}
+          className={`flex flex-col min-h-screen ${workSans.className}`}
         >
-          {/* @ts-expect-error Server Component */}
-          <Header />
-          <main className="flex-1">{children}</main>
+          {children}
         </body>
       </html>
     </ClerkProvider>

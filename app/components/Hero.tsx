@@ -15,9 +15,9 @@ export default async function Hero() {
 
   return (
     <div className="flex flex-col gap-5 pb-10">
-      <span className="text-theme-blue-300 text-8xl font-bold tracking-tighter">
+      <h1 className="text-theme-blue-300 text-8xl font-bold tracking-tighter">
         {welcome(date.getHours())}
-      </span>
+      </h1>
       {!user && (
         <div className="text-2xl sm:text-3xl text-white">
           <h2>Welcome to your favorite Todo App!</h2>

@@ -26,6 +26,9 @@ module.exports = {
         'theme-blue-500': '#1A3272',
         'theme-blue-300': '#5F8AFF',
       },
+      transitionProperty: {
+        width: 'width',
+      },
     },
     container: {
       center: true,
