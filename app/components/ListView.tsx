@@ -27,7 +27,7 @@ export default function ListView() {
       const { data: todos } = await supabase
         .from('todos')
         .select('*')
-        .order('created_at', { ascending: false })
+        .order('active', { ascending: false })
       setTodos(todos ?? [])
     } catch (error) {
       alert(error)

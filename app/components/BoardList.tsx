@@ -36,7 +36,9 @@ export default function BoardList({
 
         {isSignedIn &&
           todos.length === 0 &&
-          fakeTodos.map((_, i) => <SkeletonCard active boardList key={i} />)}
+          fakeTodos.map((_, i) => (
+            <SkeletonCard filter="active" boardList key={i} />
+          ))}
       </div>
 
       {isSignedIn && (

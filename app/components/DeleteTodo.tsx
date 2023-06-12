@@ -9,7 +9,11 @@ import { XCircleIcon } from '@heroicons/react/24/solid'
 export default function DeleteTodo({ id }: { id: string | number }) {
   const { getToken, userId } = useAuth()
 
-  const deleteTodo = async () => {
+  const deleteTodo = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.stopPropagation()
+
     const supabaseAccessToken = await getToken({
       template: 'supabase',
     })
@@ -29,11 +33,11 @@ export default function DeleteTodo({ id }: { id: string | number }) {
     }
   }
   return (
-    <button onClick={deleteTodo}>
+    <button className="cursor-pointer" onClick={deleteTodo}>
       <span className="sr-only">Delete todo</span>
       <XCircleIcon
         title="Delete"
-        className="h-16 w-16 fill-red-500/80 hover:fill-red-500/100 transition-all duration-150 ease-linear"
+        className="h-16 w-16 fill-red-500 hover:fill-red-500/80 transition-all duration-150 ease-linear"
       />
     </button>
   )

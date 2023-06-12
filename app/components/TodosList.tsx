@@ -98,6 +98,11 @@ export default function TodosList({ todos, setTodos }: TodosListProps) {
           fakeTodos.map((_, i) => (
             <SkeletonCard filter={filterTodos} key={i} />
           ))}
+
+        {/* {fakeTodos.map((_, i) => (
+          <SkeletonCard filter={filterTodos} key={i} />
+        ))} */}
+
         {isSignedIn && (
           <div className="fixed bottom-5 left-0 right-0">
             <div className="flex justify-center mt-5">

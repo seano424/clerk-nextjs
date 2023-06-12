@@ -11,6 +11,8 @@ import DeleteTodo from './DeleteTodo'
 import UpdateActiveTodo from './UpdateActiveTodo'
 import timeConvert from '@/utils/timeConvert'
 import alternatingBgColor from '@/utils/alternatingBgColor'
+import modalAtom from '@/lib/modalAtom'
+import { useSetAtom } from 'jotai'
 
 interface CardProps {
   todo: Database['public']['Tables']['todos']['Row']
@@ -25,11 +27,18 @@ export default function Card({ todo, i, boardList, relatedTodos }: CardProps) {
   const bgColors = ['bg-theme-cyan', 'bg-theme-yellow', 'bg-white']
   const bgColor = alternatingBgColor(i, bgColors)
   const date = new Date(todo.date ?? '')
+  const setModal = useSetAtom(modalAtom)
+
+  const handleModal = () => {
+    setModal({ data: todo, open: true, bgColor: i })
+  }
 
   return (
-    <div
+    <button
+      onClick={handleModal}
       className={clsx(
         bgColor,
+        'w-full',
         'text-theme-slate-900 rounded-[40px] capitalize p-5'
       )}
     >
@@ -45,8 +54,7 @@ export default function Card({ todo, i, boardList, relatedTodos }: CardProps) {
                 todo={todo!}
                 userId={userId}
               />
-              <DeleteTodo id={todo.id} />
-              <UpsertTodo i={i} todo={todo} />
+              {!todo.active && <DeleteTodo id={todo.id} />}
             </>
           )}
         </div>
@@ -62,15 +70,15 @@ export default function Card({ todo, i, boardList, relatedTodos }: CardProps) {
         </>
       )}
       {!boardList && (
-        <>
+        <div className="flex flex-col items-start">
           <p className="pt-5">{todo.board}</p>
           <h4 className="text-2xl">{todo.title}</h4>
           <p>{date.toDateString()}</p>
           <p className="text-sm text-theme-blue-300">
             {todo.active ? 'Active' : 'Completed'}
           </p>
-        </>
+        </div>
       )}
-    </div>
+    </button>
   )
 }
