@@ -55,8 +55,8 @@ export default function ListView() {
         active={active}
       />
 
-      {!active && <TodosList setTodos={setTodos} todos={todos} />}
-      {active && <BoardList setTodos={setTodos} todos={todos} />}
+      {!active && <TodosList todos={todos} />}
+      {active && <BoardList todos={todos} />}
     </Provider>
   )
 }

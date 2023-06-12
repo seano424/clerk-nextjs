@@ -3,7 +3,6 @@
 import clsx from 'clsx'
 import { useAuth } from '@clerk/nextjs'
 import { Database } from '@/types/supabase'
-import { Dispatch, SetStateAction } from 'react'
 
 import Avatar from './Avatar'
 import DeleteTodo from './DeleteTodo'
@@ -17,7 +16,6 @@ interface TodoCardProps {
   todo: Database['public']['Tables']['todos']['Row']
   relatedTodos?: number
   i: number
-  setTodos?: Dispatch<SetStateAction<any>>
 }
 
 export default function TodoCard({ todo, i }: TodoCardProps) {

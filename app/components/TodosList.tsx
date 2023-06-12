@@ -2,7 +2,7 @@
 
 import clsx from 'clsx'
 import { useAuth } from '@clerk/nextjs'
-import { useState, Dispatch } from 'react'
+import { useState } from 'react'
 import { ToastContainer } from 'react-toastify'
 
 import TodoCard from './TodoCard'
@@ -12,12 +12,11 @@ import { Database } from '@/types/supabase'
 
 export type TodosListProps = {
   todos: Database['public']['Tables']['todos']['Row'][]
-  setTodos: Dispatch<any>
 }
 
 const fakeTodos = Array(2).fill(5)
 
-export default function TodosList({ todos, setTodos }: TodosListProps) {
+export default function TodosList({ todos }: TodosListProps) {
   const [filterTodos, setFilterTodos] = useState<'' | 'completed' | 'active'>(
     ''
   )
@@ -76,23 +75,17 @@ export default function TodosList({ todos, setTodos }: TodosListProps) {
         )}
 
         {showAllTodos &&
-          todos.map((todo, i) => (
-            <TodoCard setTodos={setTodos} todo={todo} i={i} key={todo.id} />
-          ))}
+          todos.map((todo, i) => <TodoCard todo={todo} i={i} key={todo.id} />)}
 
         {showActiveTodos &&
           todos
             .filter((t) => t.active === true)
-            .map((todo, i) => (
-              <TodoCard setTodos={setTodos} todo={todo} i={i} key={todo.id} />
-            ))}
+            .map((todo, i) => <TodoCard todo={todo} i={i} key={todo.id} />)}
 
         {showCompletedTodos &&
           todos
             .filter((t) => t.active === false)
-            .map((todo, i) => (
-              <TodoCard setTodos={setTodos} todo={todo} i={i} key={todo.id} />
-            ))}
+            .map((todo, i) => <TodoCard todo={todo} i={i} key={todo.id} />)}
 
         {isSignedIn &&
           todos.length === 0 &&
