@@ -26,7 +26,7 @@ export default function TodoCard({ todo, i }: TodoCardProps) {
   const setModal = useSetAtom(modalAtom)
 
   const handleModal = () => {
-    setModal({ data: todo, open: true, bgColor: i })
+    setModal({ data: todo, open: true, bgColor: i, type: 'Edit' })
   }
 
   return (

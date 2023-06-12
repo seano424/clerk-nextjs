@@ -92,16 +92,6 @@ export default function TodosList({ todos }: TodosListProps) {
 
         {!isSignedIn ||
           (!todos && fakeTodos.map((_, i) => <SkeletonCard key={i} />))}
-
-        {isSignedIn && (
-          <div className="fixed bottom-5 left-0 right-0">
-            <div className="flex justify-center mt-5">
-              <DialogButton className="rounded-full text-5xl font-light h-20 w-20 bg-theme-blue-300 text-white shadow-2xl">
-                +
-              </DialogButton>
-            </div>
-          </div>
-        )}
       </div>
     </>
   )

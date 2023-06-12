@@ -4,19 +4,22 @@ import { toast } from 'react-toastify'
 import { useAuth } from '@clerk/nextjs'
 import modalAtom from '@/lib/modalAtom'
 import supabaseClient from '@/lib/supabaseClient'
-import { initialData } from '@/lib/modalAtom'
 import React, { useRef, useEffect, useState } from 'react'
 
-export default function Dialog() {
-  const dialog = useRef<HTMLDialogElement>(null)
+export default function UpdateTodoDialog() {
+  const updateDialog = useRef<HTMLDialogElement>(null)
   const { userId, getToken } = useAuth()
   const [modal, setModal] = useAtom(modalAtom)
   const [data, setData] = useState(modal.data)
 
   useEffect(() => {
-    dialog.current?.removeAttribute('open')
-    modal.open && dialog.current?.showModal()
-    dialog.current?.close && setData(modal.data)
+    if (modal.type === 'Edit') {
+      updateDialog.current?.removeAttribute('open')
+      modal.open && updateDialog.current?.showModal()
+      updateDialog.current?.close && setData(modal.data)
+    } else {
+      updateDialog.current?.close()
+    }
   }, [modal])
 
   const borderColors = [
@@ -27,29 +30,30 @@ export default function Dialog() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
+    if (!userId) return
     try {
       const { title, board, active, id } = data
       const supabaseAccessToken = await getToken({ template: 'supabase' })
       const supabase = await supabaseClient(supabaseAccessToken)
       const { error } = await supabase
         .from('todos')
-        .upsert({ title, board, active, user_id: userId!, id: id ?? undefined })
-      dialog.current?.close() &&
-        setModal({ data: initialData, open: false, bgColor: 2 })
+        .update({ title, board, active })
+        .match({ id: id })
+      updateDialog.current?.close() &&
+        setModal((prevState) => ({ ...prevState, open: false }))
       if (id === 0) {
         toast.success('Todo created successfully!')
       } else {
         toast.success('Todo updated successfully!')
       }
       if (error) throw error
-    } catch (error) {
-      alert(error)
+    } catch (error: any) {
+      alert(error.message)
     }
   }
 
   return (
-    <dialog ref={dialog}>
+    <dialog ref={updateDialog}>
       <div
         className={clsx(
           'fixed bg-black/30 inset-0 z-50 flex flex-col justify-center items-center'
@@ -66,7 +70,7 @@ export default function Dialog() {
             className="bg-white flex flex-col container max-w-sm w-[400px] items-start gap-2 p-10 rounded-3xl"
           >
             <h2 className="text-theme-slate-900 text-xl font-medium pb-4">
-              Add New Todos
+              Update Todos!
             </h2>
             <label
               className="text-theme-slate-900 text-lg font-medium"
@@ -121,7 +125,8 @@ export default function Dialog() {
                 className="text-red-500 font-medium text-lg"
                 onClick={(e) => {
                   e.preventDefault()
-                  dialog.current?.close() && setModal({ ...modal, open: false })
+                  updateDialog.current?.close() &&
+                    setModal((prevState) => ({ ...prevState, open: false }))
                 }}
               >
                 Cancel

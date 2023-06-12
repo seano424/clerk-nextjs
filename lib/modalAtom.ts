@@ -6,7 +6,7 @@ export const initialData = {
   board: '',
   created_at: '',
   date: '',
-  id: null,
+  id: 0,
   time: '',
   title: '',
   user_id: '',
@@ -14,12 +14,14 @@ export const initialData = {
 
 const modalAtom = atom<{
   open: boolean
-  data: Database['public']['Tables']['todos']['Row'] | typeof initialData,
+  data: typeof initialData | Database['public']['Tables']['todos']['Row']
   bgColor: number
+  type: 'Add' | 'Edit'
 }>({
   open: false,
   data: initialData,
   bgColor: 0,
+  type: 'Add',
 })
 
 export default modalAtom

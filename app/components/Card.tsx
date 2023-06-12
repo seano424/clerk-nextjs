@@ -30,12 +30,13 @@ export default function Card({ todo, i, boardList, relatedTodos }: CardProps) {
   const setModal = useSetAtom(modalAtom)
 
   const handleModal = () => {
-    setModal({ data: todo, open: true, bgColor: i })
+    // setModal({ data: todo, open: true, bgColor: i, type: 'Edit' })
+    alert('clicked!')
   }
 
   return (
     <button
-      onClick={handleModal}
+      onClick={() => alert('clicked')}
       className={clsx(
         bgColor,
         'w-full',

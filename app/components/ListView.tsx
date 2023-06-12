@@ -9,7 +9,10 @@ import Overview from './Overview'
 import TodosList from './TodosList'
 import BoardList from './BoardList'
 import { Database } from '@/types/supabase'
-import Dialog from './Dialog'
+import AddTodoDialog from './AddTodoDialog'
+
+import AddTodoButton from './AddTodoButton'
+import UpdateTodoDialog from './UpdateTodoDialog'
 
 export default function ListView() {
   const { getToken, isSignedIn } = useAuth()
@@ -49,7 +52,8 @@ export default function ListView() {
 
   return (
     <Provider>
-      <Dialog />
+      <AddTodoDialog />
+      <UpdateTodoDialog />
       <Overview percentageActive={percentageActive} />
       <FilterList
         todos={todos}
@@ -59,6 +63,8 @@ export default function ListView() {
 
       {!active && <TodosList todos={todos} />}
       {active && <BoardList todos={todos} />}
+
+      {isSignedIn && <AddTodoButton />}
     </Provider>
   )
 }
