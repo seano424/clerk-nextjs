@@ -10,20 +10,22 @@ import SkeletonCard from './SkeletonCard'
 import { Database } from '@/types/supabase'
 
 export type TodosListProps = {
-  todos: Database['public']['Tables']['todos']['Row'][] | null
+  todos:
+    | Database['public']['Tables']['todos']['Row'][]
+    | Database['public']['Tables']['todos_public']['Row'][]
+    | null
+  loading: boolean
 }
 
-const fakeTodos = Array(5).fill(5)
-
-export default function TodosList({ todos }: TodosListProps) {
+export default function TodosList({ todos, loading }: TodosListProps) {
   const [filterTodos, setFilterTodos] = useState<'' | 'completed' | 'active'>(
     ''
   )
   const { isSignedIn } = useAuth()
-
   const showAllTodos = filterTodos === ''
   const showActiveTodos = filterTodos === 'active'
   const showCompletedTodos = filterTodos === 'completed'
+  const skeletonTodos = new Array(5).fill(0)
 
   return (
     <>
@@ -89,8 +91,7 @@ export default function TodosList({ todos }: TodosListProps) {
             .filter((t) => t.active === false)
             .map((todo, i) => <TodoCard todo={todo} i={i} key={todo.id} />)}
 
-        {(!isSignedIn || todos?.length === 0) &&
-          fakeTodos.map((_, i) => <SkeletonCard key={i} />)}
+        {loading && skeletonTodos.map((_, i) => <SkeletonCard key={i} />)}
       </div>
     </>
   )

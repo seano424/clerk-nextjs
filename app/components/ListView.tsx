@@ -10,51 +10,50 @@ import TodosList from './TodosList'
 import BoardList from './BoardList'
 import { Database } from '@/types/supabase'
 import AddTodoDialog from './AddTodoDialog'
-
 import AddTodoButton from './AddTodoButton'
 
 export default function ListView() {
   const { getToken, isSignedIn } = useAuth()
+  const [loading, setLoading] = useState<boolean>(true)
   const [todos, setTodos] = useState<
-    Database['public']['Tables']['todos']['Row'][] | null
-  >([])
+    | Database['public']['Tables']['todos']['Row'][]
+    | Database['public']['Tables']['todos_public']['Row'][]
+    | null
+  >(null)
   const [activeListView, setActiveListView] = useState<'todo' | 'board'>('todo')
   const [percentageActive, setPercentageActive] = useState<number>(100)
   const active = activeListView === 'todo' ? 0 : 1
+  const activeTodos = todos
+    ? todos.filter((todo) => todo.active === false).length / todos.length
+    : 100
 
   async function getTodos() {
     try {
       const supabaseAccessToken = await getToken({ template: 'supabase' })
-      const supabase = await supabaseClient(supabaseAccessToken)
+      const supabase = await supabaseClient(
+        isSignedIn ? supabaseAccessToken : ''
+      )
       const { data: todos } = await supabase
-        .from('todos')
+        .from(isSignedIn ? 'todos' : 'todos_public')
         .select('*')
         .order('active', { ascending: false })
         .order('created_at', { ascending: false })
       setTodos(todos)
+      setPercentageActive(activeTodos * 100)
     } catch (error) {
       alert(error)
     } finally {
+      setLoading(false)
     }
   }
 
   useEffect(() => {
-    if (isSignedIn) {
-      getTodos()
-      if (todos) {
-        const activeTodos =
-          todos.filter((todo) => todo.active === false).length / todos.length
-        setPercentageActive(activeTodos * 100)
-      }
-    } else {
-      setTodos(null)
-    }
+    getTodos()
   }, [todos, isSignedIn])
 
   return (
     <Provider>
       <AddTodoDialog />
-      {/* <UpdateTodoDialog /> */}
       <Overview percentageActive={percentageActive} />
       <FilterList
         todos={todos}
@@ -62,7 +61,7 @@ export default function ListView() {
         active={active}
       />
 
-      {!active && <TodosList todos={todos} />}
+      {!active && <TodosList loading={loading} todos={todos} />}
       {active && <BoardList todos={todos} />}
 
       {isSignedIn && <AddTodoButton />}

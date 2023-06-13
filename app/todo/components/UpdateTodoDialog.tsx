@@ -11,7 +11,7 @@ export default function UpdateTodoDialog() {
   const [dialog, setDialog] = useAtom(dialogAtom)
   const [todo, setTodo] = useState(dialog.data)
 
-  const { getToken } = useAuth()
+  const { getToken, isSignedIn } = useAuth()
   const updateDialog = useRef<HTMLDialogElement>(null)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -19,9 +19,11 @@ export default function UpdateTodoDialog() {
     try {
       const { title, board, active, id, description } = todo
       const supabaseAccessToken = await getToken({ template: 'supabase' })
-      const supabase = await supabaseClient(supabaseAccessToken)
+      const supabase = await supabaseClient(
+        isSignedIn ? supabaseAccessToken : ''
+      )
       const { error } = await supabase
-        .from('todos')
+        .from(isSignedIn ? 'todos' : 'todos_public')
         .update({ title, board, active, description })
         .match({ id: id })
       updateDialog.current?.close() &&

@@ -11,34 +11,31 @@ export default function UpdateActiveTodoButton({
   todo: Database['public']['Tables']['todos']['Row']
 }) {
   const [isActive, setIsActive] = useState(todo.active)
-  const { getToken, userId } = useAuth()
+  const { getToken, userId, isSignedIn } = useAuth()
 
   const updateActive = async () => {
     const supabaseAccessToken = await getToken({
       template: 'supabase',
     })
 
-    const supabase = await supabaseClient(supabaseAccessToken)
+    const supabase = await supabaseClient(isSignedIn ? supabaseAccessToken : '')
 
     try {
       const { error } = await supabase
-        .from('todos')
+        .from(isSignedIn ? 'todos' : 'todos_public')
         .update({ active: !todo.active })
         .eq('id', todo.id)
-        .eq('user_id', userId)
         .select()
         .single()
       if (error) throw error
-    } catch (e) {
-      alert(e)
+    } catch (e: any) {
+      alert(e.message)
     }
   }
 
   useEffect(() => {
     setIsActive(todo.active)
   }, [todo.active])
-
-  console.log(todo.active)
 
   return (
     <button

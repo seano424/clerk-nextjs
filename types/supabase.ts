@@ -45,6 +45,42 @@ export interface Database {
         }
         Relationships: []
       }
+      todos_public: {
+        Row: {
+          active: boolean
+          board: string
+          created_at: string
+          date: string
+          description: string | null
+          id: number
+          time: number
+          title: string
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          board?: string
+          created_at?: string
+          date?: string
+          description?: string | null
+          id?: number
+          time?: number
+          title: string
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          board?: string
+          created_at?: string
+          date?: string
+          description?: string | null
+          id?: number
+          time?: number
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

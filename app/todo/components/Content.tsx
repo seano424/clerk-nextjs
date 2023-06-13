@@ -12,19 +12,20 @@ export default function Content({ id }: { id: string }) {
   const [todo, setTodo] = useState<
     Database['public']['Tables']['todos']['Row'] | null
   >(null)
-  const { getToken } = useAuth()
+  const { getToken, isSignedIn } = useAuth()
 
   const getTodo = async () => {
-    const token = await getToken({ template: 'supabase' })
-    const supabase = await supabaseClient(token)
-    const { data: todo, error } = await supabase
-      .from('todos')
-      .select('*')
-      .eq('id', id)
-      .single()
-
-    setTodo(todo)
-    if (error) {
+    try {
+      const token = await getToken({ template: 'supabase' })
+      const supabase = await supabaseClient(isSignedIn ? token : '')
+      const { data: todo, error } = await supabase
+        .from(isSignedIn ? 'todos' : 'todos_public')
+        .select('*')
+        .eq('id', id)
+        .single()
+      setTodo(todo)
+      if (error) throw error
+    } catch (error: any) {
       console.log(error.message)
     }
   }

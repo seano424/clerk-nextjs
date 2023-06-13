@@ -9,14 +9,14 @@ import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid'
 
 export default function UpdateTodoButton() {
   const setModal = useSetAtom(dialogAtom)
-  const { getToken } = useAuth()
+  const { getToken, isSignedIn } = useAuth()
   const params = useParams()
 
   const getTodo = async () => {
     const supabaseAccessToken = await getToken({ template: 'supabase' })
-    const supabase = await supabaseClient(supabaseAccessToken)
+    const supabase = await supabaseClient(isSignedIn ? supabaseAccessToken : '')
     const { data, error } = await supabase
-      .from('todos')
+      .from(isSignedIn ? 'todos' : 'todos_public')
       .select('*')
       .eq('id', params.id)
       .single()
