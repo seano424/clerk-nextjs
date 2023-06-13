@@ -17,12 +17,12 @@ export default function UpdateTodoDialog() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      const { title, board, active, id } = todo
+      const { title, board, active, id, description } = todo
       const supabaseAccessToken = await getToken({ template: 'supabase' })
       const supabase = await supabaseClient(supabaseAccessToken)
       const { error } = await supabase
         .from('todos')
-        .update({ title, board, active })
+        .update({ title, board, active, description })
         .match({ id: id })
       updateDialog.current?.close() &&
         setDialog((prevState) => ({ ...prevState, open: false }))
@@ -53,7 +53,7 @@ export default function UpdateTodoDialog() {
         <div className={clsx('p-1 rounded-3xl border-8 bg-white')}>
           <form
             onSubmit={handleSubmit}
-            className="bg-white flex flex-col container max-w-sm w-[400px] items-start gap-2 p-10 rounded-3xl"
+            className="bg-white flex flex-col container max-w-sm md:max-w-xl w-[800px] items-start gap-2 p-10 rounded-3xl"
           >
             <h2 className="text-theme-slate-900 text-xl font-medium pb-4">
               Update Todos!
@@ -85,6 +85,23 @@ export default function UpdateTodoDialog() {
               value={todo.board}
               placeholder="Board Name"
               onChange={(e) => setTodo({ ...todo, board: e.target.value })}
+            />
+            <label
+              className="text-theme-slate-900 text-lg font-medium"
+              htmlFor="description"
+            >
+              Description
+            </label>
+            <textarea
+              rows={5}
+              cols={33}
+              className="border-2 w-full text-slate-600 p-4 rounded-xl border-slate-200 focus-visible:ring-0 focus:outline-none bg-slate-100"
+              name="description"
+              value={todo.description ?? ''}
+              placeholder="Description"
+              onChange={(e) =>
+                setTodo({ ...todo, description: e.target.value })
+              }
             />
             <div className="flex gap-2">
               <label
