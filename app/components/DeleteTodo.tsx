@@ -5,9 +5,10 @@ import { toast } from 'react-toastify'
 import { useAuth } from '@clerk/nextjs'
 import supabaseClient from '@/lib/supabaseClient'
 import { XCircleIcon } from '@heroicons/react/24/solid'
+import Link from 'next/link'
 
 export default function DeleteTodo({ id }: { id: string | number }) {
-  const { getToken, userId } = useAuth()
+  const { getToken, isSignedIn } = useAuth()
 
   const deleteTodo = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -17,14 +18,13 @@ export default function DeleteTodo({ id }: { id: string | number }) {
     const supabaseAccessToken = await getToken({
       template: 'supabase',
     })
-    const supabase = await supabaseClient(supabaseAccessToken)
+    const supabase = await supabaseClient(isSignedIn ? supabaseAccessToken : '')
 
     try {
       const { error } = await supabase
-        .from('todos')
+        .from(isSignedIn ? 'todos' : 'todos_public')
         .delete()
         .eq('id', id)
-        .eq('user_id', userId)
       if (error) throw error
     } catch (e) {
       console.log(e)
@@ -33,12 +33,24 @@ export default function DeleteTodo({ id }: { id: string | number }) {
     }
   }
   return (
-    <button className="cursor-pointer" onClick={deleteTodo}>
-      <span className="sr-only">Delete todo</span>
-      <XCircleIcon
-        title="Delete"
-        className="h-16 w-16 fill-red-500 hover:fill-red-500/80 transition-all duration-150 ease-linear"
-      />
-    </button>
+    <>
+      {isSignedIn ? (
+        <button className="cursor-pointer" onClick={deleteTodo}>
+          <span className="sr-only">Delete todo</span>
+          <XCircleIcon
+            title="Delete"
+            className="h-16 w-16 fill-red-500 hover:fill-red-500/80 transition-all duration-150 ease-linear"
+          />
+        </button>
+      ) : (
+        <Link href="/sign-in">
+          <span className="sr-only">Sign in today!</span>
+          <XCircleIcon
+            title="Delete"
+            className="h-16 w-16 fill-red-500 hover:fill-red-500/80 transition-all duration-150 ease-linear"
+          />
+        </Link>
+      )}
+    </>
   )
 }

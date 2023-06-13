@@ -6,6 +6,7 @@ import { useAtom } from 'jotai'
 import dialogAtom from '@/lib/dialogAtom'
 import supabaseClient from '@/lib/supabaseClient'
 import { useAuth } from '@clerk/nextjs'
+import Link from 'next/link'
 
 export default function UpdateTodoDialog() {
   const [dialog, setDialog] = useAtom(dialogAtom)
@@ -120,12 +121,21 @@ export default function UpdateTodoDialog() {
               />
             </div>
             <div className="mt-10 flex flex-row-reverse justify-between w-full">
-              <button
-                type="submit"
-                className="px-10 py-3 rounded-full text-white bg-sky-400"
-              >
-                Send
-              </button>
+              {isSignedIn ? (
+                <button
+                  type="submit"
+                  className="px-10 py-3 rounded-full text-white bg-sky-400"
+                >
+                  Send
+                </button>
+              ) : (
+                <Link
+                  className="px-10 py-3 rounded-full text-white bg-sky-400"
+                  href={'/sign-in'}
+                >
+                  Sign in 😉
+                </Link>
+              )}
               <button
                 className="text-red-500 font-medium text-lg"
                 onClick={(e) => {

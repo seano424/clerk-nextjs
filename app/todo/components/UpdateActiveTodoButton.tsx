@@ -29,7 +29,7 @@ export default function UpdateActiveTodoButton({
         .single()
       if (error) throw error
     } catch (e: any) {
-      alert(e.message)
+      alert(supabaseAccessToken)
     }
   }
 

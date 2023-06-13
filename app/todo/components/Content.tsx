@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { useAuth } from '@clerk/nextjs'
 import supabaseClient from '@/lib/supabaseClient'
 import { Database } from '@/types/supabase'
@@ -38,9 +39,21 @@ export default function Content({ id }: { id: string }) {
   return (
     <div className="flex flex-col gap-5">
       {todo && (
-        <div className="px-5 py-2 rounded-full border capitalize w-max border-black text-xl">
-          {todo.board}
-        </div>
+        <>
+          {isSignedIn && (
+            <div className="px-5 py-2 rounded-full border capitalize w-max border-black text-xl">
+              {todo.board}
+            </div>
+          )}
+          {!isSignedIn && (
+            <Link
+              href="/sign-in"
+              className="px-5 py-2 rounded-full border capitalize w-max border-black text-xl"
+            >
+              {todo.board}
+            </Link>
+          )}
+        </>
       )}
 
       {!todo && (

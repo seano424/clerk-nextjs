@@ -1,7 +1,6 @@
 'use client'
 
 import clsx from 'clsx'
-import { useAuth } from '@clerk/nextjs'
 import { Database } from '@/types/supabase'
 import Link from 'next/link'
 import Avatar from './Avatar'
@@ -17,7 +16,6 @@ interface TodoCardProps {
 }
 
 export default function TodoCard({ todo, i }: TodoCardProps) {
-  const { getToken, userId, isSignedIn } = useAuth()
   const bgColors = ['bg-theme-cyan', 'bg-theme-yellow', 'bg-white']
   const bgColor = alternatingBgColor(i, bgColors)
   const date = new Date(todo.date ?? '')
@@ -26,7 +24,7 @@ export default function TodoCard({ todo, i }: TodoCardProps) {
     <Link
       href={{
         pathname: `/todo/${todo.id}`,
-        query: { colorIndex: i, public: !isSignedIn },
+        query: { colorIndex: i },
       }}
     >
       <div
@@ -40,11 +38,7 @@ export default function TodoCard({ todo, i }: TodoCardProps) {
           <Avatar />
           <div className="flex gap-2 items-center">
             <span>{timeConvert(todo.time)}</span>
-            <UpdateActiveTodo
-              getToken={getToken}
-              todo={todo!}
-              userId={userId}
-            />
+            <UpdateActiveTodo todo={todo!} />
             {!todo.active && <DeleteTodo id={todo.id} />}
           </div>
         </div>

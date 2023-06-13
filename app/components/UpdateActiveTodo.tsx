@@ -1,3 +1,6 @@
+'use client'
+
+import { useAuth } from '@clerk/nextjs'
 import { Database } from '@/types/supabase'
 import { toast } from 'react-toastify'
 import supabaseClient from '@/lib/supabaseClient'
@@ -6,15 +9,11 @@ import React from 'react'
 
 interface UpdateActiveTodo {
   todo: Database['public']['Tables']['todos']['Row']
-  userId: any
-  getToken: any
 }
 
-export default function UpdateActiveStateButton({
-  todo,
-  userId,
-  getToken,
-}: UpdateActiveTodo) {
+export default function UpdateActiveStateButton({ todo }: UpdateActiveTodo) {
+  const { getToken, isSignedIn } = useAuth()
+
   const updateActive = async (
     todo: any,
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -27,14 +26,13 @@ export default function UpdateActiveStateButton({
       template: 'supabase',
     })
 
-    const supabase = await supabaseClient(supabaseAccessToken)
+    const supabase = await supabaseClient(isSignedIn ? supabaseAccessToken : '')
 
     try {
       const { error } = await supabase
-        .from('todos')
+        .from(isSignedIn ? 'todos' : 'todos_public')
         .update({ active: !todo.active })
         .eq('id', todo.id)
-        .eq('user_id', userId)
         .select()
       if (error) throw error
     } catch (e: any) {
