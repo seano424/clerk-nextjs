@@ -15,6 +15,7 @@ export interface Database {
           board: string
           created_at: string
           date: string
+          description: string | null
           id: number
           time: number
           title: string
@@ -25,6 +26,7 @@ export interface Database {
           board?: string
           created_at?: string
           date?: string
+          description?: string | null
           id?: number
           time?: number
           title: string
@@ -35,6 +37,7 @@ export interface Database {
           board?: string
           created_at?: string
           date?: string
+          description?: string | null
           id?: number
           time?: number
           title?: string

@@ -30,12 +30,12 @@ export default function AddTodoDialog() {
     e.preventDefault()
     if (!userId) return
     try {
-      const { title, board, active } = data
+      const { title, board, active, description } = data
       const supabaseAccessToken = await getToken({ template: 'supabase' })
       const supabase = await supabaseClient(supabaseAccessToken)
       const { error } = await supabase
         .from('todos')
-        .insert({ title, board, active, user_id: userId })
+        .insert({ title, board, active, user_id: userId, description })
       addDialog.current?.close() &&
         setModal((prevState) => ({ ...prevState, open: false }))
       toast.success('Todo created successfully!')
@@ -55,7 +55,7 @@ export default function AddTodoDialog() {
         <div className={clsx('p-1 rounded-3xl border-8 bg-white')}>
           <form
             onSubmit={handleSubmit}
-            className="bg-white flex flex-col container max-w-sm w-[400px] items-start gap-2 p-10 rounded-3xl"
+            className="bg-white flex flex-col container max-w-sm md:max-w-xl w-[800px] items-start gap-2 p-10 rounded-3xl"
           >
             <h2 className="text-theme-slate-900 text-xl font-medium pb-4">
               Add New Todos
@@ -87,6 +87,23 @@ export default function AddTodoDialog() {
               value={data.board}
               placeholder="Board Name"
               onChange={(e) => setData({ ...data, board: e.target.value })}
+            />
+            <label
+              className="text-theme-slate-900 text-lg font-medium"
+              htmlFor="description"
+            >
+              Description
+            </label>
+            <textarea
+              rows={5}
+              cols={33}
+              className="border-2 w-full text-slate-600 p-4 rounded-xl border-slate-200 focus-visible:ring-0 focus:outline-none bg-slate-100"
+              name="description"
+              value={data.description ?? ''}
+              placeholder="Description"
+              onChange={(e) =>
+                setData({ ...data, description: e.target.value })
+              }
             />
             <div className="flex gap-2">
               <label

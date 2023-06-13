@@ -10,6 +10,7 @@ export const initialData = {
   time: '',
   title: '',
   user_id: '',
+  description: '',
 }
 
 const dialogAtom = atom<{

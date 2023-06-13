@@ -103,14 +103,10 @@ export default function Page({ params: { id } }: { params: { id: string } }) {
             </div>
           )}
 
-          {todo && (
+          {todo && todo.description && (
             <div className="flex flex-col gap-2">
               <p className="text-slate-500">Additional Description</p>
-              <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Cupiditate quo nisi quaerat. Est neque rem adipisci repudiandae
-                molestiae, ex nemo.
-              </p>
+              <p>{todo.description}</p>
             </div>
           )}
 
