@@ -53,7 +53,7 @@ export default function ListView() {
   return (
     <Provider>
       <AddTodoDialog />
-      <UpdateTodoDialog />
+      {/* <UpdateTodoDialog /> */}
       <Overview percentageActive={percentageActive} />
       <FilterList
         todos={todos}
