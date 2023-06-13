@@ -135,7 +135,11 @@ export default function Page({ params: { id } }: { params: { id: string } }) {
             </div>
           )}
 
-          {todo && <UpdateActiveTodoButton todo={todo} />}
+          {todo && (
+            <div className="mt-10">
+              <UpdateActiveTodoButton todo={todo} />
+            </div>
+          )}
         </div>
       </div>
     </main>
