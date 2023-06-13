@@ -12,7 +12,6 @@ import { Database } from '@/types/supabase'
 import AddTodoDialog from './AddTodoDialog'
 
 import AddTodoButton from './AddTodoButton'
-import UpdateTodoDialog from './UpdateTodoDialog'
 
 export default function ListView() {
   const { getToken, isSignedIn } = useAuth()
@@ -47,8 +46,10 @@ export default function ListView() {
           todos.filter((todo) => todo.active === false).length / todos.length
         setPercentageActive(activeTodos * 100)
       }
+    } else {
+      setTodos(null)
     }
-  }, [todos])
+  }, [todos, isSignedIn])
 
   return (
     <Provider>

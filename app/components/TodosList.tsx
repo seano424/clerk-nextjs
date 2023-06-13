@@ -89,8 +89,8 @@ export default function TodosList({ todos }: TodosListProps) {
             .filter((t) => t.active === false)
             .map((todo, i) => <TodoCard todo={todo} i={i} key={todo.id} />)}
 
-        {!isSignedIn ||
-          (!todos && fakeTodos.map((_, i) => <SkeletonCard key={i} />))}
+        {(!isSignedIn || todos?.length === 0) &&
+          fakeTodos.map((_, i) => <SkeletonCard key={i} />)}
       </div>
     </>
   )
