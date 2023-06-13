@@ -46,7 +46,7 @@ export default function TodosList({ todos }: TodosListProps) {
                   : 'text-theme-blue-900 bg-white hover:bg-theme-cyan transition-all duration-100 ease-linear'
               )}
             >
-              All Todos
+              All Todos ({todos.length})
             </button>
             <button
               onClick={() => setFilterTodos('active')}
@@ -57,7 +57,7 @@ export default function TodosList({ todos }: TodosListProps) {
                   : 'text-theme-blue-900 bg-white hover:bg-theme-cyan transition-all duration-100 ease-linear'
               )}
             >
-              Active Todos
+              Active Todos ({todos.filter((t) => t.active === true).length})
             </button>
             <button
               onClick={() => setFilterTodos('completed')}
@@ -68,7 +68,7 @@ export default function TodosList({ todos }: TodosListProps) {
                   : 'text-theme-blue-900 bg-white hover:bg-theme-cyan transition-all duration-100 ease-linear'
               )}
             >
-              Completed Todos
+              Completed Todos ({todos.filter((t) => t.active === false).length})
             </button>
           </div>
         )}
