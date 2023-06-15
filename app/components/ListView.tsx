@@ -21,11 +21,7 @@ export default function ListView() {
     | null
   >(null)
   const [activeListView, setActiveListView] = useState<'todo' | 'board'>('todo')
-  const [percentageActive, setPercentageActive] = useState<number>(100)
   const active = activeListView === 'todo' ? 0 : 1
-  const activeTodos = todos
-    ? todos.filter((todo) => todo.active === false).length / todos.length
-    : 100
 
   async function getTodos() {
     try {
@@ -39,7 +35,6 @@ export default function ListView() {
         .order('active', { ascending: false })
         .order('created_at', { ascending: false })
       setTodos(todos)
-      setPercentageActive(activeTodos * 100)
     } catch (error) {
       alert(error)
     } finally {
@@ -54,7 +49,7 @@ export default function ListView() {
   return (
     <Provider>
       <AddTodoDialog />
-      <Overview percentageActive={percentageActive} />
+      <Overview todos={todos} />
       <FilterList
         todos={todos}
         setActiveListView={setActiveListView}

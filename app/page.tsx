@@ -2,7 +2,7 @@ import ListView from './components/ListView'
 import Hero from './components/Hero'
 import Header from './components/Header'
 
-export default async function Home() {
+export default function Home() {
   return (
     <main className="bg-theme-blue-900">
       <div className="max-w-4xl mx-auto">

@@ -1,3 +1,5 @@
+import { Database } from '@/types/supabase'
+
 const days = [
   'Sunday',
   'Monday',
@@ -38,11 +40,20 @@ const nth = (d: number) => {
 }
 
 interface OverviewProps {
-  percentageActive: number
+  todos:
+    | Database['public']['Tables']['todos']['Row'][]
+    | Database['public']['Tables']['todos_public']['Row'][]
+    | null
+    | undefined
 }
 
-export default function Overview({ percentageActive }: OverviewProps) {
+export default function Overview({ todos }: OverviewProps) {
   const date = new Date()
+
+  const percentageActive = todos
+    ? (todos.filter((todo) => todo.active === false).length / todos.length) *
+      100
+    : 10000
 
   return (
     <div className="flex-col flex">
