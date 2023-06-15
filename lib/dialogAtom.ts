@@ -15,7 +15,7 @@ export const initialData = {
 
 const dialogAtom = atom<{
   open: boolean
-  data: typeof initialData | Database['public']['Tables']['todos']['Row']
+  data: typeof initialData | Database['public']['Tables']['todos']['Row'] | Database['public']['Tables']['todos_public']['Row']
   bgColor: number
   type: 'Add' | 'Edit'
 }>({
