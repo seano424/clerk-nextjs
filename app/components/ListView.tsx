@@ -8,18 +8,15 @@ import FilterList from './FilterList'
 import Overview from './Overview'
 import TodosList from './TodosList'
 import BoardList from './BoardList'
-import { Database } from '@/types/supabase'
 import AddTodoDialog from './AddTodoDialog'
 import AddTodoButton from './AddTodoButton'
+import todosAtom from '@/lib/todosAtom'
+import { useAtom } from 'jotai'
 
 export default function ListView() {
+  const [data, setData] = useAtom(todosAtom)
   const { getToken, isSignedIn } = useAuth()
   const [loading, setLoading] = useState<boolean>(true)
-  const [todos, setTodos] = useState<
-    | Database['public']['Tables']['todos']['Row'][]
-    | Database['public']['Tables']['todos_public']['Row'][]
-    | null
-  >(null)
   const [activeListView, setActiveListView] = useState<'todo' | 'board'>('todo')
   const active = activeListView === 'todo' ? 0 : 1
 
@@ -34,7 +31,8 @@ export default function ListView() {
         .select('*')
         .order('active', { ascending: false })
         .order('created_at', { ascending: false })
-      setTodos(todos)
+
+      setData(todos)
     } catch (error) {
       alert(error)
     } finally {
@@ -44,20 +42,20 @@ export default function ListView() {
 
   useEffect(() => {
     getTodos()
-  }, [todos, isSignedIn])
+  }, [data, isSignedIn])
 
   return (
     <Provider>
       <AddTodoDialog />
-      <Overview todos={todos} />
+      <Overview todos={data} />
       <FilterList
-        todos={todos}
+        todos={data}
         setActiveListView={setActiveListView}
         active={active}
       />
 
-      {!active && <TodosList loading={loading} todos={todos} />}
-      {active && <BoardList todos={todos} />}
+      {!active && <TodosList loading={loading} todos={data} />}
+      {active && <BoardList todos={data} />}
 
       {isSignedIn && <AddTodoButton />}
     </Provider>
