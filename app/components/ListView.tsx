@@ -14,7 +14,7 @@ import todosAtom from '@/lib/todosAtom'
 import { useAtom } from 'jotai'
 
 export default function ListView() {
-  const [data, setData] = useAtom(todosAtom)
+  const [todos, setTodos] = useAtom(todosAtom)
   const { getToken, isSignedIn } = useAuth()
   const [loading, setLoading] = useState<boolean>(true)
   const [activeListView, setActiveListView] = useState<'todo' | 'board'>('todo')
@@ -32,7 +32,7 @@ export default function ListView() {
         .order('active', { ascending: false })
         .order('created_at', { ascending: false })
 
-      setData(todos)
+      setTodos(todos)
     } catch (error) {
       alert(error)
     } finally {
@@ -42,20 +42,20 @@ export default function ListView() {
 
   useEffect(() => {
     getTodos()
-  }, [data, isSignedIn])
+  }, [todos, isSignedIn])
 
   return (
     <Provider>
       <AddTodoDialog />
-      <Overview todos={data} />
+      <Overview todos={todos} />
       <FilterList
-        todos={data}
+        todos={todos}
         setActiveListView={setActiveListView}
         active={active}
       />
 
-      {!active && <TodosList loading={loading} todos={data} />}
-      {active && <BoardList todos={data} />}
+      {!active && <TodosList loading={loading} todos={todos} />}
+      {active && <BoardList todos={todos} />}
 
       {isSignedIn && <AddTodoButton />}
     </Provider>
